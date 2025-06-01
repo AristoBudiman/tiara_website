@@ -1,10 +1,22 @@
-import { Button } from "@material-tailwind/react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
+import HomePage from "./pages/home/HomePage";
+import NoPage from "./pages/noPage/NoPage";
 
-const App = () => (
-  <div className="p-10">
-    <Button>Click me</Button>
-    <div className="bg-red-500 text-white p-4 mt-4">Hello Tailwind</div>
-  </div>
-);
+const App = () => {
+  return (
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/*" element={<NoPage />} />
+        </Routes>
+      </Router>
+    </div>
+  );
+}
 
 export default App;
