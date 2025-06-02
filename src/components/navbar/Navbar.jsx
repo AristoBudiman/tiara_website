@@ -24,7 +24,7 @@ const Navbar = () => {
                     </Link>
                     <Link to="/orders">Orders</Link>
                     <Link to="/about">About Us</Link>
-                    <Link to="/account" className="flex items-center space-x-1">
+                    <Link to="/user-dashboard" className="flex items-center space-x-1">
                         <FaUser />
                         <span>Account</span>
                     </Link>
