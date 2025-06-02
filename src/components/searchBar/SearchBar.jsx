@@ -4,15 +4,15 @@ import { FiSearch } from "react-icons/fi";
 const searchData = [
   {
     name: 'Bolu',
-    image: 'https://i.pinimg.com/736x/ab/97/d8/ab97d86db8962c8db98162e2c1db881f.jpg',
+    image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_ca3be61a_shjkgm.jpg',
   },
   {
     name: 'Chiffon',
-    image: 'https://i.pinimg.com/736x/90/d4/9a/90d49ac0d233e6b3ab51eda000ea9c00.jpg',
+    image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_f1eac40a_rkp5pu.jpg',
   },
   {
     name: 'Mandarin',
-    image: 'https://i.pinimg.com/736x/8a/17/24/8a17245280e6a0011ea99877afc80a10.jpg ',
+    image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_a70c1f09_snkii9.jpg ',
   },
 ];
 

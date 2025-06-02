@@ -1,36 +1,16 @@
 // category 
 const category = [
     {
-        image: 'https://cdn-icons-png.flaticon.com/256/4359/4359963.png',
-        name: 'fashion'
+        image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_ca3be61a_shjkgm.jpg',
+        name: 'Bolu'
     },
     {
-        image: 'https://cdn-icons-png.flaticon.com/256/11833/11833323.png',
-        name: 'shirt'
+        image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_f1eac40a_rkp5pu.jpg',
+        name: 'Chiffon'
     },
     {
-        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
-        name: 'jacket'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/7648/7648246.png',
-        name: 'mobile'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/12142/12142416.png',
-        name: 'laptop'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/10686/10686553.png',
-        name: 'shoes'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/12114/12114279.png',
-        name: 'home'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/11946/11946316.png',
-        name: 'books'
+        image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_a70c1f09_snkii9.jpg',
+        name: 'Mandarin'
     }
 ]
 
