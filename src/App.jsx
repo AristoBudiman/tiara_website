@@ -13,10 +13,11 @@ import Signup from "./pages/registration/Signup";
 import Login from "./pages/registration/Login";
 import UserDashboard from "./pages/user/UserDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import MyState from "./context/myState";
 
 const App = () => {
   return (
-    <div>
+    <MyState>
       <Router>
         <ScrollTop/>
         <Routes>
@@ -31,7 +32,7 @@ const App = () => {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </Router>
-    </div>
+    </MyState>
   );
 }
 
