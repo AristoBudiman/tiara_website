@@ -14,6 +14,7 @@ import Login from "./pages/registration/Login";
 import UserDashboard from "./pages/user/UserDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import MyState from "./context/myState";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
+        <Toaster/>
       </Router>
     </MyState>
   );
