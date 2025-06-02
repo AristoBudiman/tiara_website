@@ -4,7 +4,7 @@ import Navbar from "../navbar/Navbar";
 
 const Layout = ({children}) => {
     return (
-        <div>
+        <div className="bg-[#FFF0DC] min-h-screen">
             <Navbar/>
             <div className="main-content min-h-screen">
                 {children}

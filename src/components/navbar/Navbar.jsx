@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 
 const Navbar = () => {
     return (
-        <nav className="bg-white shadow-md sticky top-0 z-50">
+        <nav className="bg-[#FFFFFF] shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex items-center justify-between py-0 px-4">
                 {/* Logo */}
                 <div className="flex items-center space-x-2">
@@ -18,7 +18,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Nav Items */}
-                <div className="flex items-center space-x-6 text-orange-400 font-semibold">
+                <div className="flex items-center space-x-6 text-[#F0BB78] font-semibold">
                     <Link to="/cart" className="flex items-center space-x-1">
                         <FaShoppingCart />
                     </Link>

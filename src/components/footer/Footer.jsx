@@ -3,13 +3,13 @@ import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
     return (
-        <footer className="bg-[#543A14] text-white py-8">
+        <footer className="bg-[#543A14] py-8">
             <div className="container mx-auto px-5">
                 {/* Judul */}
-                <h2 className="text-center text-lg font-bold mb-6">ABOUT US</h2>
+                <h2 className=" text-[#FFF0DC] text-center text-lg font-bold mb-6">ABOUT US</h2>
 
                 {/* Isi 3 kolom */}
-                <div className="flex flex-col md:flex-row justify-between text-sm space-y-8 md:space-y-0">
+                <div className=" text-[#FFFFFF] flex flex-col md:flex-row justify-between text-sm space-y-8 md:space-y-0">
                     {/* Address */}
                     <div>
                         <h3 className="text-lg font-semibold mb-2">Address</h3>
