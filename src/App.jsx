@@ -8,6 +8,7 @@ import NoPage from "./pages/noPage/NoPage";
 import ProductInfo from "./pages/productInfo/ProductInfo";
 import ScrollTop from "./components/scrollTop/ScrollTop";
 import CartPage from "./pages/cart/CartPage";
+import AllProduct from "./pages/allProduct/AllProduct";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/*" element={<NoPage />} />
           <Route path="/ProductInfo" element={<ProductInfo/>} />
           <Route path="/cart" element={<CartPage />} />
+          {/* <Route path="/allproduct" element={<AllProduct />} /> */}
         </Routes>
       </Router>
     </div>
