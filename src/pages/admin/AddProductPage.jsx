@@ -31,7 +31,7 @@ const AddProductPage = () => {
         price: "",
         actualPrice: "",
         images: [],
-        category: "",
+        category: categoryList[0].name,
         description: "",
         // quantity : 1,
     });

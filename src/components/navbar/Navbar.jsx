@@ -13,7 +13,7 @@ const Navbar = () => {
     // logout function 
     const logout = () => {
         localStorage.clear('users');
-        navigate("/login")
+        navigate("/")
     }
 
     // navList Data
