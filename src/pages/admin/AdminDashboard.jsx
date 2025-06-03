@@ -15,8 +15,8 @@ const AdminDashboard = () => {
         <div>
             {/* Top */}
             <div className="top mb-5 px-5 mt-5">
-                <div className=" bg-pink-50 py-5 border border-pink-100 rounded-lg">
-                    <h1 className=" text-center text-2xl font-bold text-pink-500">Admin Dashboard</h1>
+                <div className=" bg-brown-50 py-5 border border-brown-100 rounded-lg">
+                    <h1 className=" text-center text-2xl font-bold text-brown-500">Admin Dashboard</h1>
                 </div>
             </div>
 
@@ -24,15 +24,15 @@ const AdminDashboard = () => {
                 {/* Mid  */}
                 <div className="mid mb-5">
                     {/* main  */}
-                    <div className=" bg-pink-50 py-5 rounded-xl border border-pink-100">
+                    <div className=" bg-brown-50 py-5 rounded-xl border border-brown-100">
                         {/* image  */}
                         <div className="flex justify-center">
                             <img src={logo} alt="Logo" className="h-24" />
                         </div>
                         {/* text  */}
                         <div className="">
-                            <h1 className=" text-center text-lg text-pink-500"><span className=" font-bold">Name :</span> {user?.name}</h1>
-                            <h1 className=" text-center text-lg text-pink-500"><span className=" font-bold">Email :</span> {user?.email}</h1>
+                            <h1 className=" text-center text-lg text-brown-500"><span className=" font-bold">Name :</span> {user?.name}</h1>
+                            <h1 className=" text-center text-lg text-brown-500"><span className=" font-bold">Email :</span> {user?.email}</h1>
                         </div>
                     </div>
                 </div>
@@ -43,8 +43,8 @@ const AdminDashboard = () => {
                         <TabList className="flex flex-wrap -m-4 text-center justify-center">
                             {/* Total Products */}
                             <Tab className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
-                                <div className=" border bg-pink-50 hover:bg-pink-100 border-pink-100 px-4 py-3 rounded-xl" >
-                                    <div className="text-pink-500 w-12 h-12 mb-3 inline-block" >
+                                <div className=" border bg-brown-50 hover:bg-brown-100 border-brown-100 px-4 py-3 rounded-xl" >
+                                    <div className="text-brown-500 w-12 h-12 mb-3 inline-block" >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width={50}
@@ -67,15 +67,15 @@ const AdminDashboard = () => {
                                         </svg>
 
                                     </div>
-                                    <h2 className="title-font font-medium text-3xl text-pink-400 fonts1" >{getAllProduct.length}</h2>
-                                    <p className=" text-pink-500  font-bold" >Total Products</p>
+                                    <h2 className="title-font font-medium text-3xl text-brown-400 fonts1" >{getAllProduct.length}</h2>
+                                    <p className=" text-brown-500  font-bold" >Total Products</p>
                                 </div>
                             </Tab>
 
                             {/* Total Order  */}
                             <Tab className="p-4 md:w-1/4 sm:w-1/2 w-full cursor-pointer">
-                                <div className=" border bg-pink-50 hover:bg-pink-100 border-pink-100 px-4 py-3 rounded-xl" >
-                                    <div className="text-pink-500 w-12 h-12 mb-3 inline-block" >
+                                <div className=" border bg-brown-50 hover:bg-brown-100 border-brown-100 px-4 py-3 rounded-xl" >
+                                    <div className="text-brown-500 w-12 h-12 mb-3 inline-block" >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width={50}
@@ -96,15 +96,15 @@ const AdminDashboard = () => {
                                             <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
                                         </svg>
                                     </div>
-                                    <h2 className="title-font font-medium text-3xl text-pink-400 fonts1" >10</h2>
-                                    <p className=" text-pink-500  font-bold" >Total Order</p>
+                                    <h2 className="title-font font-medium text-3xl text-brown-400 fonts1" >10</h2>
+                                    <p className=" text-brown-500  font-bold" >Total Order</p>
                                 </div>
                             </Tab>
 
                             {/* Total User  */}
                             <Tab className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
-                                <div className=" border bg-pink-50 hover:bg-pink-100 border-pink-100 px-4 py-3 rounded-xl" >
-                                    <div className="text-pink-500 w-12 h-12 mb-3 inline-block" >
+                                <div className=" border bg-brown-50 hover:bg-brown-100 border-brown-100 px-4 py-3 rounded-xl" >
+                                    <div className="text-brown-500 w-12 h-12 mb-3 inline-block" >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width={50}
@@ -124,8 +124,8 @@ const AdminDashboard = () => {
                                         </svg>
 
                                     </div>
-                                    <h2 className="title-font font-medium text-3xl text-pink-400 fonts1" >10</h2>
-                                    <p className=" text-pink-500  font-bold" >Total Order</p>
+                                    <h2 className="title-font font-medium text-3xl text-brown-400 fonts1" >10</h2>
+                                    <p className=" text-brown-500  font-bold" >Total Order</p>
                                 </div>
                             </Tab>
                         </TabList>
