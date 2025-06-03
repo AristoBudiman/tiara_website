@@ -2,6 +2,9 @@ import Layout from "../../components/layout/Layout";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaUser } from "react-icons/fa";
 
 const UserDashboard = () => {
+
+  const user = JSON.parse(localStorage.getItem('users'));
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-6 bg-[#FFF0DC] min-h-screen">
@@ -13,8 +16,8 @@ const UserDashboard = () => {
               C
             </div>
             <div>
-              <h2 className="font-bold text-[#543A14] text-md">Costumer</h2>
-              <p className="text-sm text-white">Costumer@gmail.com</p>
+              <h2 className="font-bold text-[#543A14] text-md">{user?.name}</h2>
+              <p className="text-sm text-white">{user?.email}</p>
             </div>
           </div>
 
@@ -30,7 +33,7 @@ const UserDashboard = () => {
                 <FaUser className="mt-1 text-[#F0BB78]" />
                 <div>
                   <p className="font-medium">Full Name</p>
-                  <p>Costumer the best</p>
+                  <p>{user?.name}</p>
                 </div>
               </div>
 
@@ -38,7 +41,7 @@ const UserDashboard = () => {
                 <FaEnvelope className="mt-1 text-[#F0BB78]" />
                 <div>
                   <p className="font-medium">Email Address</p>
-                  <p>customer@gmail.com</p>
+                  <p>{user?.email}</p>
                 </div>
               </div>
 
@@ -65,7 +68,7 @@ const UserDashboard = () => {
                 <p className="font-medium">Password</p>
                 <button className="text-sm text-[#F0BB78] hover:underline">Change Password</button>
               </div>
-              <p className="text-gray-400">************</p>
+              <p className="text-gray-400">******</p>
             </div>
           </div>
         </div>
