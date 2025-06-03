@@ -1,4 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import myContext from "../../context/myContext";
+import Loader from "../../components/loader/Loader";
 
 const productData = [
   {
@@ -50,6 +53,9 @@ const productData = [
 
 const HomePageProductCard = () => {
   const navigate = useNavigate();
+  const context = useContext(myContext);
+  const {loading, getAllProduct} = context;
+
   return (
     <div  className="container mx-auto px-5 mt-10">
       {/* Heading */}
@@ -58,9 +64,10 @@ const HomePageProductCard = () => {
       {/* Product grid */}
       <section className="text-[#543A14] body-font">
         <div className="container pb-5 mx-auto">
+          <div>{loading && <Loader/>}</div>
           <div className="flex flex-wrap gap-6 justify-between gap-y-6">
-            {productData.map((item, index) => {
-              const { image, title, price, quantity } = item;
+            {getAllProduct.map((item, index) => {
+              const { id, images, title, price, actualPrice, quantity, description } = item;
 
               return (
                 <div key={index} className="w-64 bg-[#FFFFFF] rounded-xl shadow-md overflow-hidden">
@@ -68,7 +75,7 @@ const HomePageProductCard = () => {
                   <div className="h-32 bg-[#D9D9D9] overflow-hidden">
                     <img
                     onClick={()=> navigate('/productinfo')}
-                    src={image} 
+                    src={images[0]} 
                     alt={title} 
                     className="h-full w-full object-cover cursor-pointer" />
                   </div>
@@ -76,9 +83,9 @@ const HomePageProductCard = () => {
                   {/* Isi produk */}
                   <div className="p-4">
                     <h3 className="font-bold text-sm mb-1">{title.substring(0, 25)}</h3>
-                    <p className="text-sm text-[#000000] mb-1">Stock: {quantity}</p>
-                    <p className="text-[#F0BB78] font-semibold mb-2">Rp{price}.000</p>
-                    <p className="text-sm text-[#000000] mb-4">this is bread that we have, please buy hehe</p>
+                    <p className="text-sm text-[#000000] mb-1 line-through">Rp{price}</p>
+                    <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
+                    <p className="text-sm text-[#000000] mb-4">{description}</p>
 
                     {/* Tombol */}
                     <button
