@@ -12,7 +12,7 @@ const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState("products");
 
     return (
-        <div>
+        <div className='bg-[#FFF0DC]'>
             {/* Top Navbar */}
             <nav className="bg-[#543A14] text-white px-6 flex items-center justify-between shadow-md sticky top-0 z-50">
                 <div className="flex items-center space-x-2">
@@ -64,7 +64,7 @@ const AdminDashboard = () => {
                             <div className="flex flex-wrap -m-4 pt-4 text-center justify-center">
                                 {/* Total Products */}
                                 <div className="p-4 md:w-1/3 sm:w-1/2 w-full">
-                                    <div className=" border bg-brown-50 border-brown-100 px-4 py-3 rounded-xl" >
+                                    <div className=" border bg-[#FFF0DC] px-4 py-3 rounded-xl" >
                                         <div className="text-[#543A14] w-12 h-12 mb-3 inline-block" >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
 
                                 {/* Total Order  */}
                                 <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
-                                    <div className=" border bg-brown-50 border-brown-100 px-4 py-3 rounded-xl" >
+                                    <div className=" border bg-[#FFF0DC] px-4 py-3 rounded-xl" >
                                         <div className="text-[#543A14] w-12 h-12 mb-3 inline-block" >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
 
                                 {/* Total User  */}
                                 <div className="p-4 md:w-1/3 sm:w-1/2 w-full">
-                                    <div className=" border bg-brown-50 border-brown-100 px-4 py-3 rounded-xl" >
+                                    <div className=" border bg-[#FFF0DC] px-4 py-3 rounded-xl" >
                                         <div className="text-[#543A14] w-12 h-12 mb-3 inline-block" >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

@@ -81,15 +81,15 @@ const UpdateProductPage = () => {
         getSingleProductFunction();
     }, []);
     return (
-        <div>
+        <div className="bg-[#FFF0DC]">
             <div className='flex justify-center items-center h-screen'>
                 {loading && <Loader />}
                 {/* Login Form  */}
-                <div className="login_Form bg-brown-50 px-8 py-6 border border-brown-100 rounded-xl shadow-md">
+                <div className="login_Form bg-[#FFFFFF] px-8 py-6 border rounded-xl shadow-md">
 
                     {/* Top Heading  */}
                     <div className="mb-5">
-                        <h2 className='text-center text-2xl font-bold text-brown-500 '>
+                        <h2 className='text-center text-2xl font-bold text-[#543A14] '>
                             Update Product
                         </h2>
                     </div>
@@ -107,7 +107,7 @@ const UpdateProductPage = () => {
                                 })
                             }}
                             placeholder='Product Title'
-                            className='bg-brown-50 border text-brown-300 border-brown-200 px-2 py-2 w-96 rounded-md outline-none placeholder-brown-300'
+                            className='bg-[#FFFFFF] border text-[#543A14] border-[#000000] px-2 py-2 w-96 rounded-md outline-none placeholder-[#D9D9D9]'
                         />
                     </div>
 
@@ -124,7 +124,7 @@ const UpdateProductPage = () => {
                                 })
                             }}
                             placeholder='Product Price'
-                            className='bg-brown-50 border text-brown-300 border-brown-200 px-2 py-2 w-96 rounded-md outline-none placeholder-brown-300'
+                            className='bg-[#FFFFFF] border text-[#543A14] border-[#000000] px-2 py-2 w-96 rounded-md outline-none placeholder-[#D9D9D9]'
                         />
                     </div>
 
@@ -140,7 +140,7 @@ const UpdateProductPage = () => {
                                 })
                             }}
                             placeholder='Product Actual Price'
-                            className='bg-brown-50 border text-brown-300 border-brown-200 px-2 py-2 w-96 rounded-md outline-none placeholder-brown-300'
+                            className='bg-[#FFFFFF] border text-[#FFFFFF] border-[#000000] px-2 py-2 w-96 rounded-md outline-none placeholder-[#D9D9D9]'
                         />
                     </div>
 
@@ -158,7 +158,7 @@ const UpdateProductPage = () => {
                                 })
                             }}
                             placeholder='Image URLs (comma separated)'
-                            className='bg-brown-50 border text-brown-300 border-brown-200 px-2 py-2 w-96 rounded-md outline-none placeholder-brown-300'
+                            className='bg-[#FFFFFF] border text-[#543A14] border-[#000000] px-2 py-2 w-96 rounded-md outline-none placeholder-[#D9D9D9]'
                         />
                     </div>
 
@@ -172,7 +172,7 @@ const UpdateProductPage = () => {
                                     category: e.target.value
                                 })
                             }}
-                            className="w-full px-1 py-2 text-brown-300 bg-brown-50 border border-brown-200 rounded-md outline-none  ">
+                            className="w-full px-1 py-2 text-[#543A14] bg-[#FFFFFF] border border-[#000000] rounded-md outline-none  ">
                             <option disabled>Select Product Category</option>
                             {categoryList.map((value, index) => {
                                 const { name } = value
@@ -192,7 +192,7 @@ const UpdateProductPage = () => {
                                     ...product,
                                     description: e.target.value
                                 })
-                            }} name="description" placeholder="Product Description" rows="5" className=" w-full px-2 py-1 text-brown-300 bg-brown-50 border border-brown-200 rounded-md outline-none placeholder-brown-300 ">
+                            }} name="description" placeholder="Product Description" rows="5" className=" w-full px-2 py-1 text-[#543A14] bg-[#FFFFFF] border border-[#000000] rounded-md outline-none placeholder-brown-300 ">
 
                         </textarea>
                     </div>
@@ -202,7 +202,7 @@ const UpdateProductPage = () => {
                         <button
                             onClick={updateProduct}
                             type='button'
-                            className='bg-brown-500 hover:bg-brown-600 w-full text-white text-center py-2 font-bold rounded-md '
+                            className='bg-[#543A14] hover:bg-brown-600 w-full text-white text-center py-2 font-bold rounded-md '
                         >
                             Update Product
                         </button>
