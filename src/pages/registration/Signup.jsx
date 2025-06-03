@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import myContext from '../../context/myContext';
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { auth, fireDB } from "../../firebase/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import toast from "react-hot-toast";
@@ -55,7 +55,7 @@ const Signup = () => {
             const userRefrence = collection(fireDB, "users")
 
             // Add User Detail
-            addDoc(userRefrence, user);
+            await setDoc(doc(fireDB, "users", users.user.uid), user);
 
             setUserSignup({
                 name: "",
