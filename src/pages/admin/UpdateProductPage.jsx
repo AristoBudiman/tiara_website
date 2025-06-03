@@ -140,7 +140,7 @@ const UpdateProductPage = () => {
                                 })
                             }}
                             placeholder='Product Actual Price'
-                            className='bg-[#FFFFFF] border text-[#FFFFFF] border-[#000000] px-2 py-2 w-96 rounded-md outline-none placeholder-[#D9D9D9]'
+                            className='bg-[#FFFFFF] border text-[#543A14] border-[#000000] px-2 py-2 w-96 rounded-md outline-none placeholder-[#D9D9D9]'
                         />
                     </div>
 
