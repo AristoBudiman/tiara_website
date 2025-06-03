@@ -1,4 +1,4 @@
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, updateDoc } from "firebase/firestore";
 import { useContext, useState } from "react";
 import myContext from "../../context/myContext";
 import toast from "react-hot-toast";
@@ -33,20 +33,23 @@ const AddProductPage = () => {
         images: [],
         category: "",
         description: "",
-        quantity : 1,
+        // quantity : 1,
     });
 
 
     // Add Product Function
     const addProductFunction = async () => {
-        if (product.title == "" || product.price == "" || product.productImageUrl == "" || product.category == "" || product.description == "") {
+        if (product.title == "" || product.price == "" || product.actualPrice == "" || product.category == "" || product.description == "") {
             return toast.error("all fields are required")
         }
 
         setLoading(true);
         try {
             const productRef = collection(fireDB, 'data', 'stock', 'products');
-            await addDoc(productRef, product)
+            const docRef = await addDoc(productRef, product);
+            await updateDoc(docRef, {
+                id: docRef.id
+            });
             toast.success("Add product successfully");
             navigate('/admin-dashboard')
             setLoading(false)

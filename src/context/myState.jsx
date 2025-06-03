@@ -39,7 +39,8 @@ function MyState({ children }) {
         <MyContext.Provider value={{
             loading,
             setLoading,
-            getAllProduct
+            getAllProduct,
+            getAllProductFunction
         }}>
             {children}
         </MyContext.Provider>
