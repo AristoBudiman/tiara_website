@@ -23,6 +23,10 @@ const Navbar = () => {
             <li>
                 <Link to={'/'}>Home</Link>
             </li>
+            {/* All Product */}
+            <li>
+                <Link to={'/allproduct'}>All Product</Link>
+            </li>
             {/* Cart */}
             <li>
                 <Link to="/cart" className="flex items-center space-x-1">
@@ -37,10 +41,6 @@ const Navbar = () => {
             <li>
                 <Link to="/about">About Us</Link>
             </li>
-            {/* All Product
-            <li>
-                <Link to={'/allproduct'}>All Product</Link>
-            </li> */}
             {/* Signup */}
             {!user ? <li>
                 <Link to={'/signup'}>Signup</Link>

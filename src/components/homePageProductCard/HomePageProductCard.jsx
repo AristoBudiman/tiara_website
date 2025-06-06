@@ -74,7 +74,7 @@ const HomePageProductCard = () => {
                   {/* Gambar produk */}
                   <div className="h-32 bg-[#D9D9D9] overflow-hidden">
                     <img
-                    onClick={()=> navigate('/productinfo')}
+                    onClick={()=> navigate(`/productinfo/${id}`)}
                     src={images[0]} 
                     alt={title} 
                     className="h-full w-full object-cover cursor-pointer" />
@@ -85,7 +85,6 @@ const HomePageProductCard = () => {
                     <h3 className="font-bold text-sm mb-1">{title.substring(0, 25)}</h3>
                     <p className="text-sm text-[#000000] mb-1 line-through">Rp{price}</p>
                     <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
-                    <p className="text-sm text-[#000000] mb-4">{description}</p>
 
                     {/* Tombol */}
                     <button

@@ -2,6 +2,9 @@
 
 import { useNavigate } from "react-router";
 import Layout from "../../components/layout/Layout";
+import { useContext } from "react";
+import myContext from "../../context/myContext";
+import Loader from "../../components/loader/Loader";
 
 // productData 
 const productData = [
@@ -81,51 +84,55 @@ const productData = [
 
 const AllProduct = () => {
     const navigate = useNavigate();
+    const context = useContext(myContext);
+    const {loading, getAllProduct} = context;
     return (
         <Layout>
     <div className="py-8">
-            {/* Heading  */}
-            <div className="">
-                <h1 className=" text-center mb-5 text-2xl font-semibold">All Products</h1>
-            </div>
+            {/* Heading */}
+            <h1 className="mb-5 text-center text-2xl font-semibold text-[#543A14]">OUR PRODUCT</h1>
 
-            {/* main  */}
-            <section className="text-gray-600 body-font">
-                <div className="container px-5 lg:px-0 py-5 mx-auto">
-                    <div className="flex flex-wrap -m-4">
-                        {productData.map((item, index) => {
-                            const { image, title, price } = item
-                            return (
-                                <div key={index} className="p-4 w-full md:w-1/4">
-                                    <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">
-                                        <img
-                                        onClick={()=> navigate('/productinfo')}
-                                            className="lg:h-80  h-96 w-full"
-                                            src={image}
-                                            alt="blog"
-                                        />
-                                        <div className="p-6">
-                                            <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                                                E-bharat
-                                            </h2>
-                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                                                {title.substring(0, 25)}
-                                            </h1>
-                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                                                ₹{price}
-                                            </h1>
+            {/* Product grid */}
+            <section className="text-[#543A14] body-font">
+                <div className="container pb-5 mx-auto">
+                <div>{loading && <Loader/>}</div>
+                <div className="flex flex-wrap gap-6 justify-between gap-y-6">
+                    {getAllProduct.map((item, index) => {
+                    const { id, images, title, price, actualPrice, quantity, description } = item;
 
-                                            <div className="flex justify-center ">
-                                                <button className=" bg-pink-500 hover:bg-pink-600 w-full text-white py-[4px] rounded-lg font-bold">
-                                                    Add To Cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
+                    return (
+                        <div key={index} className="w-64 bg-[#FFFFFF] rounded-xl shadow-md overflow-hidden">
+                        {/* Gambar produk */}
+                        <div className="h-32 bg-[#D9D9D9] overflow-hidden">
+                            <img
+                            onClick={()=> navigate(`/productinfo/${id}`)}
+                            src={images[0]} 
+                            alt={title} 
+                            className="h-full w-full object-cover cursor-pointer" />
+                        </div>
+
+                        {/* Isi produk */}
+                        <div className="p-4">
+                            <h3 className="font-bold text-sm mb-1">{title.substring(0, 25)}</h3>
+                            <p className="text-sm text-[#000000] mb-1 line-through">Rp{price}</p>
+                            <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
+
+                            {/* Tombol */}
+                            <button
+                            className={`w-full rounded-lg py-2 text-sm font-medium ${
+                                quantity === 0
+                                ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
+                                : 'bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78]'
+                            }`}
+                            disabled={quantity === 0}
+                            >
+                            {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                            </button>
+                        </div>
+                        </div>
+                    );
+                    })}
+                </div>
                 </div>
             </section>
         </div>
