@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import SearchBar from "../searchBar/SearchBar";
 import logo from "../../assets/logo.png";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
     // get user from localStorage 
@@ -15,6 +16,8 @@ const Navbar = () => {
         localStorage.clear('users');
         navigate("/")
     }
+
+    const cartItems = useSelector((state) => state.cart);
 
     // navList Data
     const navList = (
@@ -34,7 +37,7 @@ const Navbar = () => {
             {/* Cart */}
             <li>
                 <Link to="/cart" className="flex items-center space-x-1">
-                    <FaShoppingCart />
+                    <FaShoppingCart />({cartItems.length})
                 </Link>
             </li>
             {/* Orders */}

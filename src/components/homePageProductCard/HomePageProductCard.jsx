@@ -1,60 +1,32 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/Loader";
-
-const productData = [
-  {
-    id: 1,
-    image: 'https://i.pinimg.com/736x/98/af/b1/98afb1b84db5ca44cd1049a493447b19.jpg',
-    title: 'Product 1',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-    price: 100,
-    trendingProductName: 'Featured',
-    quantity: 4,
-  },
-  {
-    id: 2,
-    image: 'https://i.pinimg.com/736x/98/af/b1/98afb1b84db5ca44cd1049a493447b19.jpg',
-    title: 'Product 2',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-    price: 100,
-    trendingProductName: 'Featured',
-    quantity: 4,
-  },
-  {
-    id: 3,
-    image: 'https://i.pinimg.com/736x/98/af/b1/98afb1b84db5ca44cd1049a493447b19.jpg',
-    title: 'Product 3',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-    price: 100,
-    trendingProductName: 'Featured',
-    quantity: 0,
-  },
-  {
-    id: 4,
-    image: 'https://i.pinimg.com/736x/98/af/b1/98afb1b84db5ca44cd1049a493447b19.jpg',
-    title: 'Product 4',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-    price: 100,
-    trendingProductName: 'Featured',
-    quantity: 3,
-  },
-  {
-    id: 5,
-    image: 'https://i.pinimg.com/736x/98/af/b1/98afb1b84db5ca44cd1049a493447b19.jpg',
-    title: 'Product 5',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-    price: 100,
-    trendingProductName: 'Featured',
-    quantity: 3,
-  }
-];
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 
 const HomePageProductCard = () => {
   const navigate = useNavigate();
   const context = useContext(myContext);
   const {loading, getAllProduct} = context;
+
+  const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const addCart = (item) => {
+      dispatch(addToCart(item));
+      toast.success("Add to cart")
+  }
+
+  const deleteCart = (item) => {
+      dispatch(deleteFromCart(item));
+      toast.success("Delete cart")
+  }
+
+  useEffect(() => {
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   return (
     <div  className="container mx-auto px-5 mt-10">
@@ -87,16 +59,32 @@ const HomePageProductCard = () => {
                     <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
 
                     {/* Tombol */}
-                    <button
-                      className={`w-full rounded-lg py-2 text-sm font-medium ${
-                        quantity === 0
-                          ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
-                          : 'bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78]'
-                      }`}
-                      disabled={quantity === 0}
-                    >
-                      {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-                    </button>
+                    <div
+                      className="flex justify-center ">
+                      {cartItems.some((p) => p.id.toString() === item.id.toString())
+                      
+                      ?
+                      <button
+                          onClick={() => deleteCart(item)}
+                          className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium">
+                            Delete Cart
+                      </button>
+
+                      : 
+
+                      <button
+                        onClick={()=>addCart(item)}
+                        className={`w-full rounded-lg py-2 text-sm font-medium ${
+                          quantity === 0
+                            ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
+                            : 'bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78]'
+                        }`}
+                        disabled={quantity === 0}
+                      >
+                        {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                      </button>
+                      }
+                    </div>
                   </div>
                 </div>
               );

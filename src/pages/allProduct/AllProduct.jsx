@@ -2,90 +2,35 @@
 
 import { useNavigate } from "react-router";
 import Layout from "../../components/layout/Layout";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/Loader";
-
-// productData 
-const productData = [
-    {
-        id: 1,
-        image: 'https://i.pinimg.com/564x/3e/05/ce/3e05cefbc7eec79ac175ea8490a67939.jpg',
-        title: 'Hand Painted Blue Kaushalam Tea Pot in Aluminium',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 150,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 2,
-        image: 'https://i.pinimg.com/736x/e4/61/f2/e461f2246b6ad93e2099d98780626396.jpg',
-        title: 'Kaushalam kalash Copper Pot',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 120,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 3,
-        image: 'https://i.pinimg.com/564x/fd/50/68/fd50688767adb47aba7204f034554cbd.jpg',
-        title: 'Hand Painted Blue Kaushalam Tea Pot in Aluminium',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 130,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 4,
-        image: 'https://i.pinimg.com/564x/22/80/8d/22808d88ada424962f2e064f3075b2d1.jpg',
-        title: 'Hand Painted Blue Kaushalam Tea Pot in Aluminium',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 120,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 1,
-        image: 'https://i.pinimg.com/564x/3e/05/ce/3e05cefbc7eec79ac175ea8490a67939.jpg',
-        title: 'Hand Painted Blue Kaushalam Tea Pot in Aluminium',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 150,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 2,
-        image: 'https://i.pinimg.com/736x/e4/61/f2/e461f2246b6ad93e2099d98780626396.jpg',
-        title: 'Kaushalam kalash Copper Pot',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 120,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 3,
-        image: 'https://i.pinimg.com/564x/fd/50/68/fd50688767adb47aba7204f034554cbd.jpg',
-        title: 'Hand Painted Blue Kaushalam Tea Pot in Aluminium',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 130,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    },
-    {
-        id: 4,
-        image: 'https://i.pinimg.com/564x/22/80/8d/22808d88ada424962f2e064f3075b2d1.jpg',
-        title: 'Hand Painted Blue Kaushalam Tea Pot in Aluminium',
-        desc: 'Shop Hand Painted Blue Kaushalam Tea Pot in Aluminium, handmade by Mrinalika Jain. Fair pricing. Ethically made. Positive impact.',
-        price: 120,
-        trendingProductName: 'Featured',
-        quantity: 1,
-    }
-]
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 
 const AllProduct = () => {
     const navigate = useNavigate();
     const context = useContext(myContext);
     const {loading, getAllProduct} = context;
+
+    const cartItems = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+
+    const addCart = (item) => {
+        dispatch(addToCart(item));
+        toast.success("Add to cart")
+    }
+
+    const deleteCart = (item) => {
+        dispatch(deleteFromCart(item));
+        toast.success("Delete cart")
+    }
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems]);
+
     return (
         <Layout>
     <div className="py-8">
@@ -118,16 +63,32 @@ const AllProduct = () => {
                             <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
 
                             {/* Tombol */}
+                            <div
+                            className="flex justify-center ">
+                            {cartItems.some((p) => p.id.toString() === item.id.toString())
+                            
+                            ?
                             <button
-                            className={`w-full rounded-lg py-2 text-sm font-medium ${
-                                quantity === 0
-                                ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
-                                : 'bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78]'
-                            }`}
-                            disabled={quantity === 0}
-                            >
-                            {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                                onClick={() => deleteCart(item)}
+                                className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium">
+                                    Delete Cart
                             </button>
+
+                            : 
+
+                            <button
+                                onClick={()=>addCart(item)}
+                                className={`w-full rounded-lg py-2 text-sm font-medium ${
+                                quantity === 0
+                                    ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
+                                    : 'bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78]'
+                                }`}
+                                disabled={quantity === 0}
+                            >
+                                {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                            </button>
+                            }
+                            </div>
                         </div>
                         </div>
                     );
