@@ -5,28 +5,30 @@ import Loader from "../../components/loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart, deleteFromCart } from "../../redux/cartSlice";
+import useCart from "../../hooks/useCart";
 
 const HomePageProductCard = () => {
   const navigate = useNavigate();
   const context = useContext(myContext);
-  const {loading, getAllProduct} = context;
+  const {loading, getAllProduct, user} = context;
+  const { cart, addToCart, removeFromCart } = useCart(user);
 
-  const cartItems = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
+  // const cartItems = useSelector((state) => state.cart);
+  // const dispatch = useDispatch();
 
-  const addCart = (item) => {
-      dispatch(addToCart(item));
-      toast.success("Add to cart")
-  }
+  // const addCart = (item) => {
+  //     dispatch(addToCart(item));
+  //     toast.success("Add to cart")
+  // }
 
-  const deleteCart = (item) => {
-      dispatch(deleteFromCart(item));
-      toast.success("Delete cart")
-  }
+  // const deleteCart = (item) => {
+  //     dispatch(deleteFromCart(item));
+  //     toast.success("Delete cart")
+  // }
 
-  useEffect(() => {
-      localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+  // useEffect(() => {
+  //     localStorage.setItem('cart', JSON.stringify(cartItems));
+  // }, [cartItems]);
 
   return (
     <div  className="container mx-auto px-5 mt-10">
@@ -59,7 +61,7 @@ const HomePageProductCard = () => {
                     <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
 
                     {/* Tombol */}
-                    <div
+                    {/* <div
                       className="flex justify-center ">
                       {cartItems.some((p) => p.id.toString() === item.id.toString())
                       
@@ -69,11 +71,12 @@ const HomePageProductCard = () => {
                           className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium">
                             Delete Cart
                       </button>
+                      
 
                       : 
 
                       <button
-                        onClick={()=>addCart(item)}
+                        onClick={() => addToCart(item.id)}
                         className={`w-full rounded-lg py-2 text-sm font-medium ${
                           quantity === 0
                             ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
@@ -84,7 +87,12 @@ const HomePageProductCard = () => {
                         {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
                       </button>
                       }
-                    </div>
+                    </div> */}
+                    <button onClick={() => addToCart(item.id)}>Add to Cart</button>
+
+                    {cart[item.id] > 0 && (
+                      <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                    )}
                   </div>
                 </div>
               );

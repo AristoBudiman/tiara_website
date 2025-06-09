@@ -7,65 +7,86 @@ import toast from "react-hot-toast";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, fireDB } from "../../firebase/FirebaseConfig";
 import Loader from "../../components/loader/Loader";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Login = () => {
-
   const context = useContext(myContext);
   const { loading, setLoading } = context;
-
-  // navigate 
   const navigate = useNavigate();
 
-  // User Signup State 
+  // User Login State 
   const [userLogin, setUserLogin] = useState({
-      email: "",
-      password: ""
+    email: "",
+    password: ""
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
   const userLoginFunction = async () => {
-    // validation 
-    if (userLogin.email === "" || userLogin.password === "") {
-        toast.error("All Fields are required")
+    // Validasi input
+    if (!userLogin.email || !userLogin.password) {
+      toast.error("All fields are required");
+      return; // Penting: return untuk menghentikan eksekusi
     }
 
     setLoading(true);
     try {
-        const users = await signInWithEmailAndPassword(auth, userLogin.email, userLogin.password);
-        // console.log(users.user)
+      // Login dengan Firebase Auth
+      const userCredential = await signInWithEmailAndPassword(
+        auth, 
+        userLogin.email, 
+        userLogin.password
+      );
 
-        try {
-            const q = query(
-                collection(fireDB, "users"),
-                where('uid', '==', users?.user?.uid)
-            );
-            const data = onSnapshot(q, (QuerySnapshot) => {
-                let user;
-                QuerySnapshot.forEach((doc) => user = doc.data());
-                localStorage.setItem("users", JSON.stringify(user) )
-                setUserLogin({
-                    email: "",
-                    password: ""
-                })
-                toast.success("Login Successfully");
-                setLoading(false);
-                if(user.role === "user") {
-                    navigate('/user-dashboard');
-                }else{
-                    navigate('/admin-dashboard');
-                }
-            });
-            return () => data;
-        } catch (error) {
-            console.log(error);
-            setLoading(false);
-        }
+      // Ambil data user dari Firestore
+      const q = query(
+        collection(fireDB, "users"),
+        where('uid', '==', userCredential.user.uid)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("User data not found");
+      }
+
+      // Dapatkan data user
+      let userData;
+      querySnapshot.forEach((doc) => {
+        userData = doc.data();
+      });
+
+      // Update state dan localStorage
+      localStorage.setItem("users", JSON.stringify(userData));
+      context.setUser(userData); // Update user di context
+      
+      toast.success("Login Successfully");
+      setUserLogin({ email: "", password: "" });
+
+      // Redirect berdasarkan role
+      if (userData.role === "user") {
+        navigate('/user-dashboard');
+      } else {
+        navigate('/admin-dashboard');
+      }
+
     } catch (error) {
-        console.log(error);
-        setLoading(false);
-        toast.error("Login Failed");
+      console.error("Login error:", error);
+      let errorMessage = "Login Failed";
+      
+      // Handle error spesifik dari Firebase
+      if (error.code === 'auth/invalid-email') {
+        errorMessage = "Invalid email address";
+      } else if (error.code === 'auth/user-not-found') {
+        errorMessage = "User not found";
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = "Wrong password";
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = "Too many attempts. Try again later";
+      }
+      
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   }
 

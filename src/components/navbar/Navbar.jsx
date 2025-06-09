@@ -3,21 +3,30 @@ import { FaShoppingCart, FaUser } from "react-icons/fa";
 import SearchBar from "../searchBar/SearchBar";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
+import useCart from "../../hooks/useCart";
+import myContext from "../../context/myContext";
+import { useEffect, useState, useContext } from 'react';
+import { auth } from "../../firebase/FirebaseConfig";
+import { signOut } from "firebase/auth";
 
 const Navbar = () => {
-    // get user from localStorage 
-    const user = JSON.parse(localStorage.getItem('users'));
 
-    // navigate 
+    const { user, setUser } = useContext(myContext);
     const navigate = useNavigate();
+    const { cart } = useCart();
+    const cartCount = Object.keys(cart).length;
 
-    // logout function 
-    const logout = () => {
-        localStorage.clear('users');
-        navigate("/")
+    // logout function yang benar
+    const logout = async () => {
+        try {
+            await signOut(auth); // Sign out dari Firebase Auth
+            setUser(null); // Update context
+            localStorage.removeItem('users'); // Hapus dari localStorage
+            navigate("/");
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
     }
-
-    const cartItems = useSelector((state) => state.cart);
 
     // navList Data
     const navList = (
@@ -37,7 +46,7 @@ const Navbar = () => {
             {/* Cart */}
             <li>
                 <Link to="/cart" className="flex items-center space-x-1">
-                    <FaShoppingCart />({cartItems.length})
+                    <FaShoppingCart /> ({cartCount})
                 </Link>
             </li>
             {/* Orders */}

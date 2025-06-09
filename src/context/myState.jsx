@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import MyContext from './myContext';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { fireDB } from '../firebase/FirebaseConfig';
+import { fireDB, auth } from '../firebase/FirebaseConfig';
 
 function MyState({ children }) {
     // Loading State 
@@ -9,6 +9,23 @@ function MyState({ children }) {
 
     // User State
     const [getAllProduct, setGetAllProduct] = useState([]);
+    const [user, setUser] = useState(null); // Mulai dengan null
+
+    // Handle auth state changes
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+            if (firebaseUser) {
+                // Jika user login, ambil dari localStorage
+                const storedUser = JSON.parse(localStorage.getItem("users"));
+                setUser(storedUser);
+            } else {
+                // Jika logout, reset user
+                setUser(null);
+                localStorage.removeItem("users");
+            }
+        });
+        return () => unsubscribe();
+    }, []);
 
     const getAllProductFunction = async () => {
         setLoading(true);
@@ -40,7 +57,9 @@ function MyState({ children }) {
             loading,
             setLoading,
             getAllProduct,
-            getAllProductFunction
+            getAllProductFunction,
+            user,
+            setUser
         }}>
             {children}
         </MyContext.Provider>
