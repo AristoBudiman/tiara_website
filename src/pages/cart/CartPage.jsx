@@ -10,9 +10,10 @@ const DISCOUNT = 20000;
 const TAX_RATE = 0.11;
 
 const CartPage = () => {
-  const { cart, addToCart, removeFromCart, deleteItem } = useCart();
+  const { cart, addToCart, removeFromCart, deleteItem, checkout } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // Ambil detail produk dari cart
   useEffect(() => {
@@ -60,6 +61,18 @@ const CartPage = () => {
       </Layout>
     );
   }
+
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      const result = await checkout(total); // tidak perlu kirim address/total
+      if (result.success) {
+        // Redirect atau info order bisa ditambahkan
+      }
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   return (
     <Layout>
@@ -150,8 +163,14 @@ const CartPage = () => {
               </span>
             </div>
           </div>
-          <button className="w-full bg-[#F0BB78] text-white font-semibold py-2 rounded-md hover:bg-[#f1a94c] transition">
-            Check Out →
+          <button 
+            onClick={handleCheckout}
+            disabled={products.length === 0 || isCheckingOut}
+            className={`w-full bg-[#F0BB78] text-white font-semibold py-2 rounded-md hover:bg-[#f1a94c] transition ${
+              (products.length === 0 || isCheckingOut) ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            {isCheckingOut ? 'Processing...' : 'Check Out →'}
           </button>
         </div>
       </div>

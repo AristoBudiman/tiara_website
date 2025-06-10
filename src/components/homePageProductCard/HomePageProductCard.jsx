@@ -11,7 +11,7 @@ const HomePageProductCard = () => {
   const navigate = useNavigate();
   const context = useContext(myContext);
   const {loading, getAllProduct, user} = context;
-  const { cart, addToCart, removeFromCart } = useCart(user);
+  const { cart, addToCart, removeFromCart, deleteItem } = useCart(user);
 
   // const cartItems = useSelector((state) => state.cart);
   // const dispatch = useDispatch();
@@ -91,7 +91,7 @@ const HomePageProductCard = () => {
                     <button onClick={() => addToCart(item.id)}>Add to Cart</button>
 
                     {cart[item.id] > 0 && (
-                      <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                      <button onClick={() => deleteItem(item.id)}>Remove</button>
                     )}
                   </div>
                 </div>

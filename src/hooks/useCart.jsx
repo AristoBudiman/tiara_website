@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { doc, onSnapshot, updateDoc, deleteField } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc, deleteField, collection,addDoc,serverTimestamp} from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
 import toast from "react-hot-toast";
 import myContext from "../context/myContext";
@@ -70,5 +70,55 @@ export default function useCart() {
     toast.success("Item removed from cart");
   };
 
-  return { cart, addToCart, removeFromCart, deleteItem};
+  const checkout = async (total) => {
+    if (!user) {
+      toast.error("Please login to checkout");
+      return { success: false, orderId: null };
+    }
+
+    if (Object.keys(cart).length === 0) {
+      toast.error("Your cart is empty");
+      return { success: false, orderId: null };
+    }
+
+    try {
+      // Ambil data user
+      const userRef = doc(fireDB, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      const userData = userSnap.data();
+
+      if (!userData?.address || !userData?.phone) {
+        toast.error("Please complete your address and phone number before checkout.");
+        return { success: false, orderId: null };
+      }
+
+      // Hitung total di sini jika perlu (atau terima sebagai argumen seperti sebelumnya)
+      const orderRef = collection(fireDB, "orders");
+      const orderData = {
+        userId: user.uid,
+        userEmail: user.email,
+        items: cart,
+        address: userData.address,
+        phone: userData.phone,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        status: "sedang diproses",
+        total: total
+      };
+
+      const docRef = await addDoc(orderRef, orderData);
+
+      // Kosongkan cart
+      await updateDoc(userRef, { cartItems: {} });
+
+      toast.success(`Order Created successfully!`);
+      return { success: true, orderId: docRef.id };
+    } catch (error) {
+      console.error("Checkout error:", error);
+      toast.error("Failed to place order");
+      return { success: false, orderId: null };
+    }
+  };
+
+  return { cart, addToCart, removeFromCart, deleteItem, checkout};
 }
