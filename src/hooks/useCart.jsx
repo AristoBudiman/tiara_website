@@ -59,5 +59,16 @@ export default function useCart() {
     toast.success("Item removed from cart");
   };
 
-  return { cart, addToCart, removeFromCart };
+  const deleteItem = async (productId) => {
+    if (!user) return;
+
+    const userRef = doc(fireDB, "users", user.uid);
+    await updateDoc(userRef, {
+      [`cartItems.${productId}`]: deleteField(),
+    });
+
+    toast.success("Item removed from cart");
+  };
+
+  return { cart, addToCart, removeFromCart, deleteItem};
 }

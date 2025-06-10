@@ -10,7 +10,7 @@ const DISCOUNT = 20000;
 const TAX_RATE = 0.11;
 
 const CartPage = () => {
-  const { cart, addToCart, removeFromCart } = useCart();
+  const { cart, addToCart, removeFromCart, deleteItem } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -109,7 +109,7 @@ const CartPage = () => {
                       Rp{subtotal.toLocaleString("id-ID")}
                     </p>
                     <button
-                      onClick={() => removeFromCart(product.id)}
+                      onClick={() => deleteItem(product.id)}
                       className="flex items-center text-red-500 text-xs mt-1"
                     >
                       <FiTrash2 size={12} className="mr-1" />
