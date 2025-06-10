@@ -14,7 +14,8 @@ const Navbar = () => {
     const { user, setUser } = useContext(myContext);
     const navigate = useNavigate();
     const { cart } = useCart();
-    const cartCount = Object.keys(cart).length;
+    const cartCount = Object.values(cart).reduce((total, qty) => total + qty, 0);
+
 
     // logout function yang benar
     const logout = async () => {
