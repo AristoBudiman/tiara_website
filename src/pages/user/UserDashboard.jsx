@@ -1,10 +1,10 @@
-import Layout from "../../components/layout/Layout";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaUser } from "react-icons/fa";
+import Layout from "../../components/layout/Layout";
+import Loader from "../../components/loader/Loader";
 
 const UserDashboard = () => {
 
   const user = JSON.parse(localStorage.getItem('users'));
-
   return (
     <Layout>
       <div className="container mx-auto px-4 py-6 bg-[#FFF0DC] min-h-screen">
@@ -49,7 +49,7 @@ const UserDashboard = () => {
                 <FaPhoneAlt className="mt-1 text-[#F0BB78]" />
                 <div>
                   <p className="font-medium">Phone Number</p>
-                  <p>08912345678</p>
+                  <p>{user?.phone}</p>
                 </div>
               </div>
 
@@ -57,7 +57,7 @@ const UserDashboard = () => {
                 <FaMapMarkerAlt className="mt-1 text-[#F0BB78]" />
                 <div>
                   <p className="font-medium">Address</p>
-                  <p>Jebres, Surakarta, Jawa Tengah, Indonesia</p>
+                  <p>{user?.address}</p>
                 </div>
               </div>
 
@@ -72,9 +72,6 @@ const UserDashboard = () => {
             </div>
           </div>
         </div>
-
-        {/* Optional: Order Section */}
-        {/* Jika ingin tetap menampilkan Order seperti sebelumnya, bisa ditambahkan di bawah */}
       </div>
     </Layout>
   );

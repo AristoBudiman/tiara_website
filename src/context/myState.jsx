@@ -10,6 +10,7 @@ function MyState({ children }) {
     // User State
     const [getAllProduct, setGetAllProduct] = useState([]);
     const [user, setUser] = useState(null); // Mulai dengan null
+    const [getAllOrder, setGetAllOrder] = useState([]);
 
     // Handle auth state changes
     useEffect(() => {
@@ -48,9 +49,33 @@ function MyState({ children }) {
             setLoading(false);
         }
     }
+    const getAllOrderFunction = async () => {
+    setLoading(true);
+    try {
+        const q = query(collection(fireDB, "orders"), orderBy('createdAt', 'desc'));
+        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+        let orderArray = [];
+        QuerySnapshot.forEach((doc) => {
+            const orderData = doc.data();
+            orderArray.push({ 
+            ...orderData,
+            id: doc.id,
+            items: orderData.items || {}  
+            });
+        });
+        setGetAllOrder(orderArray);
+        setLoading(false);
+        });
+        return () => unsubscribe();
+    } catch (error) {
+        console.log(error);
+        setLoading(false);
+    }
+    };
 
     useEffect(() => {
         getAllProductFunction();
+        getAllOrderFunction();
     }, []);
     return (
         <MyContext.Provider value={{
@@ -59,7 +84,8 @@ function MyState({ children }) {
             getAllProduct,
             getAllProductFunction,
             user,
-            setUser
+            setUser,
+            getAllOrder
         }}>
             {children}
         </MyContext.Provider>

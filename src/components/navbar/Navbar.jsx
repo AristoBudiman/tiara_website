@@ -64,7 +64,7 @@ const Navbar = () => {
             </li> : ""}
             {/* User */}
             {user?.role === "user" && <li>
-                <Link to={'/user-dashboard'}>User</Link>
+                <Link to={'/user-dashboard'}>{user.name}</Link>
             </li>}
             {/* Admin */}
             {user?.role === "admin" && <li>
