@@ -10,7 +10,7 @@ const DISCOUNT = 20000;
 const TAX_RATE = 0.11;
 
 const CartPage = () => {
-  const { cart, addToCart, removeFromCart, deleteItem, checkout } = useCart();
+  const { cart, addToCart, removeFromCart, deleteItem, checkout, checkoutWithSnap} = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -65,10 +65,7 @@ const CartPage = () => {
   const handleCheckout = async () => {
     setIsCheckingOut(true);
     try {
-      const result = await checkout(total); // tidak perlu kirim address/total
-      if (result.success) {
-        // Redirect atau info order bisa ditambahkan
-      }
+      await checkoutWithSnap(total);
     } finally {
       setIsCheckingOut(false);
     }

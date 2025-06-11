@@ -120,5 +120,45 @@ export default function useCart() {
     }
   };
 
-  return { cart, addToCart, removeFromCart, deleteItem, checkout};
+  const checkoutWithSnap = async (total) => {
+    if (!user) {
+      toast.error("Please login to checkout");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3001/create-transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          total: total,
+          email: user.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data?.token) {
+        window.snap.pay(data.token, {
+          onSuccess: async (result) => {
+            console.log("Success:", result);
+            await checkout(total); // tetap panggil fungsi asli
+          },
+          onPending: () => toast("Waiting for payment..."),
+          onError: () => toast.error("Payment failed"),
+          onClose: () => toast("Popup closed"),
+        });
+      } else {
+        toast.error("Failed to get token from server");
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      toast.error("Checkout failed");
+    }
+  };
+
+
+  return { cart, addToCart, removeFromCart, deleteItem, checkout, checkoutWithSnap};
 }
