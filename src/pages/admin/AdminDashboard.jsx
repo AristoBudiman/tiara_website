@@ -6,12 +6,15 @@ import logo from "../../assets/logo.png";
 import myContext from '../../context/myContext';
 import { FiShoppingBag } from "react-icons/fi";      // Feather icon
 import { FaListOl, FaUsers } from "react-icons/fa";  // Font Awesome icons
+import { doc, updateDoc } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
+import { fireDB } from '../../firebase/FirebaseConfig';
 
 
 const AdminDashboard = () => {
     const user = JSON.parse(localStorage.getItem('users'));
     const context = useContext(myContext);
-    const { getAllProduct } = context;
+    const { getAllProduct, getAllOrder } = context;
 
     // navigate 
     const navigate = useNavigate();
@@ -23,6 +26,21 @@ const AdminDashboard = () => {
     }
 
     const [activeTab, setActiveTab] = useState("products");
+
+    const handleStatusChange = async (orderId, newStatus) => {
+        try {
+            const orderRef = doc(fireDB, "orders", orderId);
+            await updateDoc(orderRef, {
+                status: newStatus,
+                updatedAt: serverTimestamp(), // ✅ tambahkan ini
+            });
+            console.log("Status updated!");
+        } catch (error) {
+            console.error("Error updating status:", error);
+        }
+    };
+    const [selectedStatus, setSelectedStatus] = useState("semua");
+
 
     return (
         <div className='bg-[#FFF0DC]'>
@@ -98,7 +116,7 @@ const AdminDashboard = () => {
                                             <FaListOl size={40} />
                                         </div>
                                         <div>
-                                            <h2 className="title-font font-medium text-3xl text-[#543A14] fonts1" >10</h2>
+                                            <h2 className="title-font font-medium text-3xl text-[#543A14] fonts1" >{getAllOrder.length}</h2>
                                             <p className=" text-[#543A14]  font-bold" >Total Order</p>
                                         </div>
                                     </div>
@@ -125,8 +143,110 @@ const AdminDashboard = () => {
                 <div className="py-4">
                     {activeTab === "products" && <ProductDetail />}
                     {activeTab === "orders" && (
-                        <div className="text-[#543A14] text-lg font-semibold">All Orders (Placeholder)</div>
-                    )}
+                        <div className="mt-6 text-[#543A14]">
+                            <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-2xl font-bold">All Orders</h2>
+                            <select
+                                className="border rounded px-3 py-1 text-[#543A14]"
+                                value={selectedStatus}
+                                onChange={(e) => setSelectedStatus(e.target.value)}
+                            >
+                                <option value="semua">Semua</option>
+                                <option value="sedang diproses">Sedang Diproses</option>
+                                <option value="sedang dikirim">Sedang Dikirim</option>
+                                <option value="selesai">Selesai</option>
+                                <option value="dibatalkan">Dibatalkan</option>
+                            </select>
+                            </div>
+
+                            {["sedang diproses", "sedang dikirim", "selesai", "dibatalkan"]
+                            .filter(status => selectedStatus === "semua" || selectedStatus === status)
+                            .map((status) => (
+                                <div key={status} className="mb-8">
+                                <h3 className="text-xl font-semibold mb-2 capitalize">{status}</h3>
+                                {getAllOrder.filter(order => order.status === status).length === 0 ? (
+                                    <p className="text-gray-500 italic">Tidak ada pesanan dengan status ini.</p>
+                                ) : (
+                                    getAllOrder
+                                    .filter(order => order.status === status && (selectedStatus === "semua" || order.status === selectedStatus))
+                                    .sort((a, b) => {
+                                        const timeA = a.updatedAt?.seconds || 0;
+                                        const timeB = b.updatedAt?.seconds || 0;
+                                        return timeB - timeA; // desc
+                                    })
+                                    .map((order) => {
+                                        const orderProducts = Object.entries(order.items || {})
+                                        .map(([productId, quantity]) => {
+                                            const product = getAllProduct.find(p => p.id === productId);
+                                            return product ? { ...product, quantity } : null;
+                                        })
+                                        .filter(Boolean);
+
+                                        return (
+                                        <div key={order.id} className="mb-4 bg-[#F0BB78] rounded-lg p-4 shadow-sm">
+                                            {/* Order Header */}
+                                            <div className="bg-[#543A14] p-4 rounded mb-4">
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                <div>
+                                                <div className="text-sm font-semibold text-white">Order ID</div>
+                                                <div className="text-sm font-medium text-white">{order.id}</div>
+                                                </div>
+                                                <div>
+                                                <div className="text-sm font-semibold text-white">createdAt</div>
+                                                <div className="text-sm text-white">{order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "N/A"}</div>
+                                                </div>
+                                                <div>
+                                                <div className="text-sm font-semibold text-white">updatedAt</div>
+                                                <div className="text-sm text-white">{order.updatedAt?.seconds ? new Date(order.updatedAt.seconds * 1000).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "N/A"}</div>
+                                                </div>
+                                                <div>
+                                                <div className="text-sm font-semibold text-white">Total</div>
+                                                <div className="text-sm font-medium text-white">Rp {order.total?.toLocaleString('id-ID')}</div>
+                                                </div>
+                                                <div>
+                                                <div className="text-sm font-semibold text-white">Status</div>
+                                                <select
+                                                    className="text-sm border rounded px-2 py-1 text-[#543A14]"
+                                                    value={order.status}
+                                                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                                >
+                                                    <option value="sedang diproses">Sedang Diproses</option>
+                                                    <option value="sedang dikirim">Sedang Dikirim</option>
+                                                    <option value="selesai">Selesai</option>
+                                                    <option value="dibatalkan">Dibatalkan</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            {/* Ordered Items */}
+                                            <div className="space-y-2">
+                                            {orderProducts.map((item, idx) => (
+                                                <div key={idx} className="flex items-center justify-between p-2 border rounded bg-gray-50">
+                                                <div className="flex items-center space-x-3">
+                                                    <img src={item.images[0]} alt={item.title} className="w-12 h-12 object-cover rounded" />
+                                                    <div>
+                                                    <div className="font-semibold text-sm">{item.title}</div>
+                                                    <div className="text-xs text-gray-600">x{item.quantity}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-sm font-medium text-gray-800">
+                                                    Rp {(item.actualPrice * item.quantity).toLocaleString('id-ID')}
+                                                </div>
+                                                </div>
+                                            ))}
+                                            </div>
+                                        </div>
+                                        );
+                                    })
+                                )}
+                                </div>
+                            ))}
+                        </div>
+                        )}
+
+
+
                     {activeTab === "reports" && (
                         <UserDetail />
                     )}
