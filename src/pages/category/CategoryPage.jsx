@@ -3,40 +3,23 @@ import Layout from "../../components/layout/Layout";
 import { useContext, useEffect } from "react";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, deleteFromCart } from "../../redux/cartSlice";
+import useCart from "../../hooks/useCart";
 import toast from "react-hot-toast";
 
 const CategoryPage = () => {
 
     const { categoryname } = useParams();
     const lowerCategoryName = categoryname.toLowerCase();
+
     const navigate = useNavigate();
+
     const context = useContext(myContext);
-    const {loading, getAllProduct} = context;
+    const {loading, getAllProduct, user} = context;
+    const { cart, addToCart, deleteItem } = useCart(user);
+
     const filterProduct = getAllProduct.filter((obj) => 
         obj.category.toLowerCase().includes(lowerCategoryName)
     );
-
-    const cartItems = useSelector((state) => state.cart);
-    const dispatch = useDispatch();
-
-    const addCart = (item) => {
-        // console.log(item)
-        dispatch(addToCart(item));
-        toast.success("Add to cart")
-    }
-
-    const deleteCart = (item) => {
-        dispatch(deleteFromCart(item));
-        toast.success("Delete cart")
-    }
-
-    // console.log(cartItems)
-
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-    }, [cartItems])
 
     return (
         <Layout>
@@ -62,7 +45,7 @@ const CategoryPage = () => {
                                             {filterProduct.map((item, index) => {
                                                 const { id, images, title, price, actualPrice, quantity, description } = item;
                                                 return (
-                                                    <div key={index} className="w-64 m-4 bg-[#FFFFFF] rounded-xl shadow-md overflow-hidden">
+                                                    <div key={index} className="w-64 bg-[#FFFFFF] rounded-xl shadow-md overflow-hidden m-3">
                                                     {/* Gambar produk */}
                                                     <div className="h-32 bg-[#D9D9D9] overflow-hidden">
                                                         <img
@@ -79,32 +62,15 @@ const CategoryPage = () => {
                                                         <p className="text-[#F0BB78] font-semibold mb-2">Rp{actualPrice}</p>
 
                                                         {/* Tombol */}
-                                                        <div
-                                                        className="flex justify-center ">
-                                                        {cartItems.some((p) => p.id.toString() === item.id.toString())
-                                                        
-                                                        ?
-                                                        <button
-                                                            onClick={() => deleteCart(item)}
-                                                            className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium">
-                                                                Delete Cart
-                                                        </button>
+                                                        <button onClick={() => addToCart(item.id)} 
+                                                        className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium"
+                                                        >Add to Cart</button>
 
-                                                        : 
-
-                                                        <button
-                                                            onClick={()=>addCart(item)}
-                                                            className={`w-full rounded-lg py-2 text-sm font-medium ${
-                                                            quantity === 0
-                                                                ? 'bg-[#D9D9D9] text-[#543A14] cursor-not-allowed'
-                                                                : 'bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78]'
-                                                            }`}
-                                                            disabled={quantity === 0}
-                                                        >
-                                                            {quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-                                                        </button>
-                                                        }
-                                                        </div>
+                                                        {cart[item.id] > 0 && (
+                                                        <button onClick={() => deleteItem(item.id)} 
+                                                        className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium mt-2"
+                                                        >Remove From Cart</button>
+                                                        )}
                                                     </div>
                                                     </div>
                                                 );

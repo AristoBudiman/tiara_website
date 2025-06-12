@@ -6,15 +6,18 @@ import { useParams } from "react-router";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import { collection, doc, getDoc } from "firebase/firestore";
 import Loader from "../../components/loader/Loader";
+import useCart from "../../hooks/useCart";
 
 const ProductInfo = () => {
 
   const context = useContext(myContext);
-  const { loading, setLoading } = context;
+  const { loading, setLoading, user } = context;
 
   const [product, setProduct] = useState(null)
 
   const { id } = useParams()
+
+  const { cart, addToCart, deleteItem } = useCart(user);
 
   // console.log(product)
 
@@ -70,9 +73,16 @@ const ProductInfo = () => {
                     {product?.description}
                   </p>
 
-                  <button className="bg-[#F0BB78] hover:bg-[#F0BB78] text-white px-6 py-2 rounded-md text-sm flex items-center justify-center gap-2 w-fit">
-                    <FiShoppingCart className="inline-block mr-1 text-sm" /> Add to Cart
-                  </button>
+                  {/* Tombol */}
+                  <button onClick={() => addToCart(id)} 
+                  className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium"
+                  >Add to Cart</button>
+
+                  {cart[id] > 0 && (
+                    <button onClick={() => deleteItem(id)} 
+                    className="bg-[#F0BB78] text-[#FFFFFF] hover:bg-[#F0BB78] w-full rounded-lg py-2 text-sm font-medium mt-2"
+                    >Remove From Cart</button>
+                  )}
                 </div>
               </div>
             </div>
