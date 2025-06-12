@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import MyContext from './myContext';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { fireDB, auth } from '../firebase/FirebaseConfig';
+import { doc, getDoc } from 'firebase/firestore'; 
 
 function MyState({ children }) {
     // Loading State 
@@ -12,20 +13,33 @@ function MyState({ children }) {
     const [user, setUser] = useState(null); // Mulai dengan null
     const [getAllOrder, setGetAllOrder] = useState([]);
 
-    // Handle auth state changes
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+        let unsubscribeUser = null;
+
+        const unsubscribeAuth = auth.onAuthStateChanged((firebaseUser) => {
             if (firebaseUser) {
-                // Jika user login, ambil dari localStorage
-                const storedUser = JSON.parse(localStorage.getItem("users"));
-                setUser(storedUser);
-            } else {
-                // Jika logout, reset user
+            const docRef = doc(fireDB, "users", firebaseUser.uid);
+            unsubscribeUser = onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                const userData = docSnap.data();
+                setUser({ ...userData });
+                localStorage.setItem("users", JSON.stringify(userData));
+                } else {
                 setUser(null);
                 localStorage.removeItem("users");
+                }
+            });
+            } else {
+            setUser(null);
+            localStorage.removeItem("users");
+            if (unsubscribeUser) unsubscribeUser();
             }
         });
-        return () => unsubscribe();
+
+        return () => {
+            unsubscribeAuth();
+            if (unsubscribeUser) unsubscribeUser();
+        };
     }, []);
 
     const getAllProductFunction = async () => {

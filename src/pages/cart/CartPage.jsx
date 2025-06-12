@@ -4,6 +4,8 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 import Layout from "../../components/layout/Layout";
 import { FiTrash2 } from "react-icons/fi";
 import useCart from "../../hooks/useCart";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const DELIVERY_FEE = 30000;
 const DISCOUNT = 20000;
@@ -14,6 +16,27 @@ const CartPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  const [userData, setUserData] = useState(null); 
+  const auth = getAuth(); 
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const docRef = doc(fireDB, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const isUserInfoComplete = userData?.address && userData?.phone;
 
   // Ambil detail produk dari cart
   useEffect(() => {
@@ -164,10 +187,15 @@ const CartPage = () => {
             onClick={handleCheckout}
             disabled={products.length === 0 || isCheckingOut}
             className={`w-full bg-[#F0BB78] text-white font-semibold py-2 rounded-md hover:bg-[#f1a94c] transition ${
-              (products.length === 0 || isCheckingOut) ? 'opacity-50 cursor-not-allowed' : ''
+              (products.length === 0 || isCheckingOut || !isUserInfoComplete) ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
             {isCheckingOut ? 'Processing...' : 'Check Out →'}
+            {!isUserInfoComplete && (
+              <p className="text-red-500 text-xs mt-2">
+                Lengkapi alamat dan nomor telepon Anda terlebih dahulu di halaman profil.
+              </p>
+            )}
           </button>
         </div>
       </div>

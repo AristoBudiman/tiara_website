@@ -5,6 +5,7 @@ import logo from "../../assets/logo.png";
 import myContext from "../../context/myContext";
 import toast from "react-hot-toast";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { auth, fireDB } from "../../firebase/FirebaseConfig";
 import Loader from "../../components/loader/Loader";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -90,6 +91,22 @@ const Login = () => {
     }
   }
 
+  const handleResetPassword = async () => {
+    const email = prompt("Masukkan email yang ingin di-reset:");
+
+    if (!email) return;
+
+    const auth = getAuth();
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Email reset password telah dikirim!");
+    } catch (error) {
+      console.error("Reset Password Error:", error.message);
+      alert("Gagal mengirim email reset password.");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#FFF0DC]">
       {loading && <Loader/>}
@@ -154,9 +171,7 @@ const Login = () => {
 
         {/* Forget Password */}
         <div className="text-right mb-5">
-          <Link to="/forgot-password" className="text-xs text-[#F0BB78] hover:underline">
-            Forget Password?
-          </Link>
+          <button onClick={handleResetPassword}>Forget Password?</button>
         </div>
 
         {/* Login Button */}
