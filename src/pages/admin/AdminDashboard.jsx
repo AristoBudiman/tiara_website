@@ -4,7 +4,7 @@ import ProductDetail from '../../components/admin/ProductDetail';
 import DailySalesReport from "../../components/report/DailySalesReport";
 import MonthlySalesReport from "../../components/report/MonthlySalesReport";
 import ItemSalesDetail from "../../components/report/ItemSalesDetail";
-// import UserGrowth from "../../components/report/UserGrowth";
+import UserGrowth from "../../components/report/UserGrowth";
 import UserDetail from '../../components/admin/UserDetail';
 import logo from "../../assets/logo.png"; 
 import myContext from '../../context/myContext';
@@ -280,7 +280,7 @@ const AdminDashboard = () => {
                         <DailySalesReport orders={getAllOrder} />
                         <MonthlySalesReport orders={getAllOrder} />
                         <ItemSalesDetail orders={getAllOrder} allProducts={getAllProduct} />
-                        {/* <UserGrowth users={allUsers} />  */}
+                        <UserGrowth users={allUsers} /> 
                     </div>
                     )}
                 </div>
