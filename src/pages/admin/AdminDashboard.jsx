@@ -1,6 +1,10 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ProductDetail from '../../components/admin/ProductDetail';
+import DailySalesReport from "../../components/report/DailySalesReport";
+import MonthlySalesReport from "../../components/report/MonthlySalesReport";
+// import ItemSalesDetail from "../../components/report/ItemSalesDetail";
+// import UserGrowth from "../../components/report/UserGrowth";
 import UserDetail from '../../components/admin/UserDetail';
 import logo from "../../assets/logo.png"; 
 import myContext from '../../context/myContext';
@@ -16,9 +20,10 @@ import { signOut } from "firebase/auth";
 const AdminDashboard = () => {
     // const user = JSON.parse(localStorage.getItem('users'));
     const context = useContext(myContext);
-    const { getAllProduct, getAllOrder } = context;
+    // const { getAllProduct, getAllOrder, allUsers } = context;
+    const { user, setUser, getAllProduct, getAllOrder, allUsers } = useContext(myContext);
 
-    const { user, setUser } = useContext(myContext);
+    // const { user, setUser } = useContext(myContext);
 
     // navigate 
     const navigate = useNavigate();
@@ -139,7 +144,7 @@ const AdminDashboard = () => {
                                             <FaUsers size={40} />
                                         </div>
                                         <div>
-                                            <h2 className="title-font font-medium text-3xl text-[#543A14] fonts1" >10</h2>
+                                            <h2 className="title-font font-medium text-3xl text-[#543A14] fonts1" >{allUsers.length}</h2>
                                             <p className=" text-[#543A14]  font-bold" >Total User</p>
                                         </div>
                                     </div>
@@ -271,7 +276,12 @@ const AdminDashboard = () => {
 
 
                     {activeTab === "reports" && (
-                        <UserDetail />
+                    <div className="space-y-6">
+                        <DailySalesReport orders={getAllOrder} />
+                        <MonthlySalesReport orders={getAllOrder} />
+                        {/* <ItemSalesDetail orders={getAllOrder} allProducts={getAllProduct} />
+                        <UserGrowth users={allUsers} />  */}
+                    </div>
                     )}
                 </div>
             </div>

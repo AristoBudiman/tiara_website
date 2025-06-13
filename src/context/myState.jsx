@@ -12,6 +12,7 @@ function MyState({ children }) {
     const [getAllProduct, setGetAllProduct] = useState([]);
     const [user, setUser] = useState(null); // Mulai dengan null
     const [getAllOrder, setGetAllOrder] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
 
     useEffect(() => {
         let unsubscribeUser = null;
@@ -87,9 +88,30 @@ function MyState({ children }) {
     }
     };
 
+    const getAllUsersFunction = async () => {
+        setLoading(true);
+        try {
+            const q = query(collection(fireDB, "users"));
+            const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+                const usersArray = [];
+                QuerySnapshot.forEach((doc) => {
+                    usersArray.push({ ...doc.data(), id: doc.id });
+                });
+                setAllUsers(usersArray);
+                setLoading(false);
+            });
+            return () => unsubscribe();
+        } catch (error) {
+            console.log("Error fetching users:", error);
+            setLoading(false);
+        }
+    };
+    
+
     useEffect(() => {
         getAllProductFunction();
         getAllOrderFunction();
+        getAllUsersFunction();
     }, []);
     return (
         <MyContext.Provider value={{
@@ -99,7 +121,8 @@ function MyState({ children }) {
             getAllProductFunction,
             user,
             setUser,
-            getAllOrder
+            getAllOrder,
+            allUsers
         }}>
             {children}
         </MyContext.Provider>
