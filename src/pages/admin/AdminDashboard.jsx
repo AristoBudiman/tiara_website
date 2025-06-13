@@ -9,22 +9,32 @@ import { FaListOl, FaUsers } from "react-icons/fa";  // Font Awesome icons
 import { doc, updateDoc } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
 import { fireDB } from '../../firebase/FirebaseConfig';
+import { auth } from "../../firebase/FirebaseConfig";
+import { signOut } from "firebase/auth";
 
 
 const AdminDashboard = () => {
-    const user = JSON.parse(localStorage.getItem('users'));
+    // const user = JSON.parse(localStorage.getItem('users'));
     const context = useContext(myContext);
     const { getAllProduct, getAllOrder } = context;
+
+    const { user, setUser } = useContext(myContext);
 
     // navigate 
     const navigate = useNavigate();
 
     // logout function 
-    const logout = () => {
-        localStorage.clear('users');
-        navigate("/")
+    const logout = async () => {
+        try {
+            await signOut(auth); // Sign out dari Firebase Auth
+            setUser(null); // Update context
+            localStorage.removeItem('users'); // Hapus dari localStorage
+            navigate("/");
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
     }
-
+    
     const [activeTab, setActiveTab] = useState("products");
 
     const handleStatusChange = async (orderId, newStatus) => {
@@ -52,7 +62,7 @@ const AdminDashboard = () => {
 
                 <div className="flex items-center gap-6">
                     <button className="bg-[#F0BB78] text-[#543A14] font-semibold px-4 py-2 rounded-md hover:opacity-90 transition">
-                        Admin Panel
+                        Admin Dashboard
                     </button>
                     <button
                         onClick={() => setActiveTab("products")}
@@ -186,37 +196,50 @@ const AdminDashboard = () => {
                                         <div key={order.id} className="mb-4 bg-[#F0BB78] rounded-lg p-4 shadow-sm">
                                             {/* Order Header */}
                                             <div className="bg-[#543A14] p-4 rounded mb-4">
-                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                                <div>
-                                                <div className="text-sm font-semibold text-white">Order ID</div>
-                                                <div className="text-sm font-medium text-white">{order.id}</div>
+                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                    <div>
+                                                    <div className="text-sm font-semibold text-white">Order ID</div>
+                                                    <div className="text-sm font-medium text-white truncate overflow-hidden whitespace-nowrap">{order.id}</div>
+                                                    </div>
+                                                    <div>
+                                                    <div className="text-sm font-semibold text-white">createdAt</div>
+                                                    <div className="text-sm text-white">{order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "N/A"}</div>
+                                                    </div>
+                                                    <div>
+                                                    <div className="text-sm font-semibold text-white">updatedAt</div>
+                                                    <div className="text-sm text-white">{order.updatedAt?.seconds ? new Date(order.updatedAt.seconds * 1000).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "N/A"}</div>
+                                                    </div>
+                                                    <div>
+                                                    <div className="text-sm font-semibold text-white">Total</div>
+                                                    <div className="text-sm font-medium text-white">Rp {order.total?.toLocaleString('id-ID')}</div>
+                                                    </div>
+                                                    <div>
+                                                    <div className="text-sm font-semibold text-white">Status</div>
+                                                    <select
+                                                        className="text-sm border rounded px-2 py-1 text-[#543A14]"
+                                                        value={order.status}
+                                                        onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                                    >
+                                                        <option value="sedang diproses">Sedang Diproses</option>
+                                                        <option value="sedang dikirim">Sedang Dikirim</option>
+                                                        <option value="selesai">Selesai</option>
+                                                        <option value="dibatalkan">Dibatalkan</option>
+                                                    </select>
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-sm font-semibold text-white">User Email</div>
+                                                        <div className="text-sm font-medium text-white truncate overflow-hidden whitespace-nowrap" 
+                                                        >{order.userEmail}</div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-sm font-semibold text-white">User Phone</div>
+                                                        <div className="text-sm font-medium text-white">{order.phone}</div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-sm font-semibold text-white">User Address</div>
+                                                        <div className="text-sm font-medium text-white">{order.address}</div>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                <div className="text-sm font-semibold text-white">createdAt</div>
-                                                <div className="text-sm text-white">{order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "N/A"}</div>
-                                                </div>
-                                                <div>
-                                                <div className="text-sm font-semibold text-white">updatedAt</div>
-                                                <div className="text-sm text-white">{order.updatedAt?.seconds ? new Date(order.updatedAt.seconds * 1000).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "N/A"}</div>
-                                                </div>
-                                                <div>
-                                                <div className="text-sm font-semibold text-white">Total</div>
-                                                <div className="text-sm font-medium text-white">Rp {order.total?.toLocaleString('id-ID')}</div>
-                                                </div>
-                                                <div>
-                                                <div className="text-sm font-semibold text-white">Status</div>
-                                                <select
-                                                    className="text-sm border rounded px-2 py-1 text-[#543A14]"
-                                                    value={order.status}
-                                                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                                                >
-                                                    <option value="sedang diproses">Sedang Diproses</option>
-                                                    <option value="sedang dikirim">Sedang Dikirim</option>
-                                                    <option value="selesai">Selesai</option>
-                                                    <option value="dibatalkan">Dibatalkan</option>
-                                                </select>
-                                                </div>
-                                            </div>
                                             </div>
 
                                             {/* Ordered Items */}
