@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProductDetail from '../../components/admin/ProductDetail';
 import DailySalesReport from "../../components/report/DailySalesReport";
 import MonthlySalesReport from "../../components/report/MonthlySalesReport";
-// import ItemSalesDetail from "../../components/report/ItemSalesDetail";
+import ItemSalesDetail from "../../components/report/ItemSalesDetail";
 // import UserGrowth from "../../components/report/UserGrowth";
 import UserDetail from '../../components/admin/UserDetail';
 import logo from "../../assets/logo.png"; 
@@ -279,8 +279,8 @@ const AdminDashboard = () => {
                     <div className="space-y-6">
                         <DailySalesReport orders={getAllOrder} />
                         <MonthlySalesReport orders={getAllOrder} />
-                        {/* <ItemSalesDetail orders={getAllOrder} allProducts={getAllProduct} />
-                        <UserGrowth users={allUsers} />  */}
+                        <ItemSalesDetail orders={getAllOrder} allProducts={getAllProduct} />
+                        {/* <UserGrowth users={allUsers} />  */}
                     </div>
                     )}
                 </div>
