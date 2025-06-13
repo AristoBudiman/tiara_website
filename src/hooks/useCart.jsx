@@ -6,9 +6,8 @@ import myContext from "../context/myContext";
 
 export default function useCart() {
   const [cart, setCart] = useState({});
-  const { user } = useContext(myContext); // Gunakan user dari context
-
-  // Listen perubahan cart dari Firestore
+  const { user } = useContext(myContext);
+  
   useEffect(() => {
     if (!user) {
       setCart({}); // jika logout, kosongkan cart
@@ -92,7 +91,6 @@ export default function useCart() {
         return { success: false, orderId: null };
       }
 
-      // Hitung total di sini jika perlu (atau terima sebagai argumen seperti sebelumnya)
       const orderRef = collection(fireDB, "orders");
       const orderData = {
         userId: user.uid,
@@ -144,7 +142,7 @@ export default function useCart() {
         window.snap.pay(data.token, {
           onSuccess: async (result) => {
             console.log("Success:", result);
-            await checkout(total); // tetap panggil fungsi asli
+            await checkout(total);
           },
           onPending: () => toast("Waiting for payment..."),
           onError: () => toast.error("Payment failed"),

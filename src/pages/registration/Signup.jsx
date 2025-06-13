@@ -162,26 +162,6 @@ const Signup = () => {
                     </div>
                 </div>
 
-                {/* Confirm Password
-                <div className="mb-5">
-                    <label className="block text-sm text-[#543A14] font-semibold mb-1">
-                        Confirm Password
-                    </label>
-                    <div className="relative">
-                        <input
-                            type={showConfirmPassword ? "text" : "password"}
-                            placeholder="Repeat your password"
-                            className="w-full bg-[#FFFDF9] border border-[#000000] rounded-md px-3 py-2 pr-10 placeholder-[#D9D9D9] outline-none"
-                        />
-                        <span
-                            className="absolute right-3 top-2.5 text-[#D9D9D9] cursor-pointer"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        >
-                            {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-                        </span>
-                    </div>
-                </div> */}
-
                 {/* Sign Up Button */}
                 <div className="mb-4">
                     <button

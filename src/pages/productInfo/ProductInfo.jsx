@@ -19,9 +19,6 @@ const ProductInfo = () => {
 
   const { cart, addToCart, deleteItem } = useCart(user);
 
-  // console.log(product)
-
-  // getProductData
   const getProductData = async () => {
       setLoading(true)
       try {
@@ -65,7 +62,6 @@ const ProductInfo = () => {
                 {/* Info Produk */}
                 <div className="flex-1 text-[#543A14]">
                   <h2 className="text-xl font-semibold mb-2">{product?.title}</h2>
-                  {/* <p className="text-sm mb-1">Stock : <span className="font-medium">4</span></p> */}
                   <p className="text-[#F0BB78] text-lg font-bold mb-4">Rp{product?.actualPrice}</p>
 
                   <h3 className="text-[#8E8E93] font-semibold text-sm mb-1">Description :</h3>

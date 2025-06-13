@@ -33,11 +33,9 @@ const AddProductPage = () => {
         images: [],
         category: categoryList[0].name,
         description: "",
-        // quantity : 1,
     });
 
 
-    // Add Product Function
     const addProductFunction = async () => {
         if (product.title == "" || product.price == "" || product.actualPrice == "" || product.category == "" || product.description == "") {
             return toast.error("all fields are required")

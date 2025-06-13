@@ -6,7 +6,7 @@ const UserGrowth = ({ users }) => {
   const monthlyCounts = {};
 
   users
-    .filter(user => user.date) // pastikan field date ada
+    .filter(user => user.date)
     .forEach(user => {
       const date = new Date(user.date);
       if (!isNaN(date)) {

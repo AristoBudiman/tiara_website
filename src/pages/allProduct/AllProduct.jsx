@@ -1,35 +1,16 @@
-// Belum digunakan, bisa didelete. Hanya ada komentar untuk dipanggil di App.jsx.
+// Tidak jadi digunakan, bisa didelete. Hanya ada komentar untuk dipanggil di App.jsx.
 
 import { useNavigate } from "react-router";
 import Layout from "../../components/layout/Layout";
 import { useContext, useEffect } from "react";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 
 const AllProduct = () => {
     const navigate = useNavigate();
     const context = useContext(myContext);
     const {loading, getAllProduct} = context;
-
-    const cartItems = useSelector((state) => state.cart);
-    const dispatch = useDispatch();
-
-    const addCart = (item) => {
-        dispatch(addToCart(item));
-        toast.success("Add to cart")
-    }
-
-    const deleteCart = (item) => {
-        dispatch(deleteFromCart(item));
-        toast.success("Delete cart")
-    }
-
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-    }, [cartItems]);
 
     return (
         <Layout>

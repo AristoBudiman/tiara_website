@@ -10,7 +10,7 @@ function MyState({ children }) {
 
     // User State
     const [getAllProduct, setGetAllProduct] = useState([]);
-    const [user, setUser] = useState(null); // Mulai dengan null
+    const [user, setUser] = useState(null);
     const [getAllOrder, setGetAllOrder] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
 

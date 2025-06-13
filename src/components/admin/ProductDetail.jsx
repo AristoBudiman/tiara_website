@@ -10,8 +10,7 @@ const ProductDetail = () => {
     const context = useContext(myContext);
     const { loading, setLoading, getAllProduct, getAllProductFunction } = context;
     const navigate = useNavigate();
-    // console.log(getAllProduct)
-
+    
     const deleteProduct = async (id) => {
         setLoading(true)
         try {

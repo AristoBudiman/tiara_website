@@ -5,7 +5,6 @@ import DailySalesReport from "../../components/report/DailySalesReport";
 import MonthlySalesReport from "../../components/report/MonthlySalesReport";
 import ItemSalesDetail from "../../components/report/ItemSalesDetail";
 import UserGrowth from "../../components/report/UserGrowth";
-import UserDetail from '../../components/admin/UserDetail';
 import logo from "../../assets/logo.png"; 
 import myContext from '../../context/myContext';
 import { FiShoppingBag } from "react-icons/fi";      // Feather icon

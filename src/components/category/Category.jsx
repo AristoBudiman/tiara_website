@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 
-// category 
 const category = [
     {
         image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_ca3be61a_shjkgm.jpg',

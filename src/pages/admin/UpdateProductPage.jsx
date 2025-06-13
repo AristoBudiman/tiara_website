@@ -37,12 +37,10 @@ const UpdateProductPage = () => {
         description: "",
     });
 
-    // Get Single Product Function
     const getSingleProductFunction = async () => {
         setLoading(true);
         try {
             const productTemp = await getDoc(doc(fireDB, 'data', 'stock', 'products', id))
-            //   console.log(product.data())
             const product = productTemp.data();
             setProduct({
                 title: product?.title,
@@ -51,7 +49,6 @@ const UpdateProductPage = () => {
                 images: product?.images,
                 category: product?.category,
                 description: product?.description,
-                // quantity : product?.quantity,
             })
             setLoading(false);
 

@@ -27,7 +27,7 @@ const Login = () => {
     // Validasi input
     if (!userLogin.email || !userLogin.password) {
       toast.error("All fields are required");
-      return; // Penting: return untuk menghentikan eksekusi
+      return;
     }
 
     setLoading(true);

@@ -29,7 +29,7 @@ const OrderPage = () => {
       ? userOrders
       : userOrders.filter(order => order.status === selectedStatus);
 
-  // Urutkan berdasarkan updatedAt (terbaru di atas)
+  // Diurutkan berdasarkan updatedAt
   filteredOrders.sort((a, b) => {
     const timeA = a.updatedAt?.seconds || 0;
     const timeB = b.updatedAt?.seconds || 0;

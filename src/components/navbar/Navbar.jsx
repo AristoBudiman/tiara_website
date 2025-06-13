@@ -17,12 +17,11 @@ const Navbar = () => {
     const cartCount = Object.values(cart).reduce((total, qty) => total + qty, 0);
 
 
-    // logout function yang benar
     const logout = async () => {
         try {
-            await signOut(auth); // Sign out dari Firebase Auth
-            setUser(null); // Update context
-            localStorage.removeItem('users'); // Hapus dari localStorage
+            await signOut(auth); 
+            setUser(null); 
+            localStorage.removeItem('users');
             navigate("/");
         } catch (error) {
             console.error("Logout error:", error);
@@ -36,14 +35,6 @@ const Navbar = () => {
             <li>
                 <Link to={'/'}>Home</Link>
             </li>
-            {/* About Us */}
-            {/* <li>
-                <Link to="/about">About Us</Link>
-            </li> */}
-            {/* All Product */}
-            {/* <li>
-                <Link to={'/allproduct'}>All Product</Link>
-            </li> */}
             {/* Cart */}
             <li>
                 <Link to="/cart" className="flex items-center space-x-1">
@@ -73,13 +64,6 @@ const Navbar = () => {
             {/* logout */}
             {user && <li className=" cursor-pointer" onClick={logout}>Logout
             </li>}
-            {/* Account
-            <li>
-                <Link to={user ? "/user-dashboard" : "/login"} className="flex items-center space-x-1">
-                    <FaUser />
-                    <span>Account</span>
-                </Link>
-            </li> */}
         </ul>
     )
     return (
