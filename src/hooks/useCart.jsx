@@ -118,6 +118,45 @@ export default function useCart() {
     }
   };
 
+  // const checkoutWithSnap = async (total) => {
+  //   if (!user) {
+  //     toast.error("Please login to checkout");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch("https://midtrans-server-ujicoba-production.up.railway.app/create-transaction", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         total: total,
+  //         email: user.email,
+  //       }),
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (data?.token) {
+  //       window.snap.pay(data.token, {
+  //         onSuccess: async (result) => {
+  //           console.log("Success:", result);
+  //           await checkout(total);
+  //         },
+  //         onPending: () => toast("Waiting for payment..."),
+  //         onError: () => toast.error("Payment failed"),
+  //         onClose: () => toast("Popup closed"),
+  //       });
+  //     } else {
+  //       toast.error("Failed to get token from server");
+  //     }
+  //   } catch (err) {
+  //     console.error("Checkout error:", err);
+  //     toast.error("Checkout failed");
+  //   }
+  // };
+
   const checkoutWithSnap = async (total) => {
     if (!user) {
       toast.error("Please login to checkout");
@@ -139,14 +178,19 @@ export default function useCart() {
       const data = await response.json();
 
       if (data?.token) {
+        const orderId = data.order_id;
+
         window.snap.pay(data.token, {
-          onSuccess: async (result) => {
-            console.log("Success:", result);
-            await checkout(total);
+          onSuccess: () => {
+            toast.success("Payment success! Checking status...");
+            checkTransactionStatus(orderId, total);
           },
-          onPending: () => toast("Waiting for payment..."),
+          onPending: () => {
+            toast("Waiting for payment confirmation...");
+            checkTransactionStatus(orderId, total);
+          },
           onError: () => toast.error("Payment failed"),
-          onClose: () => toast("Popup closed"),
+          onClose: () => toast("Payment popup closed"),
         });
       } else {
         toast.error("Failed to get token from server");
@@ -154,6 +198,28 @@ export default function useCart() {
     } catch (err) {
       console.error("Checkout error:", err);
       toast.error("Checkout failed");
+    }
+  };
+
+  const checkTransactionStatus = async (orderId, total) => {
+    try {
+      const interval = setInterval(async () => {
+        const res = await fetch(`https://midtrans-server-ujicoba-production.up.railway.app/check-transaction-status/${orderId}`);
+        const data = await res.json();
+
+        if (data.status === "settlement" || data.status === "capture") {
+          clearInterval(interval);
+          toast.success("Transaction complete!");
+          await checkout(total); 
+        } else if (data.status === "expire" || data.status === "cancel") {
+          clearInterval(interval);
+          toast.error("Transaction expired or canceled.");
+        } else {
+          console.log("Status masih pending...");
+        }
+      }, 3000); // Cek setiap 3 detik
+    } catch (error) {
+      toast.error("Failed to check transaction status");
     }
   };
 
