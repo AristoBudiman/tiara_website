@@ -118,45 +118,6 @@ export default function useCart() {
     }
   };
 
-  // const checkoutWithSnap = async (total) => {
-  //   if (!user) {
-  //     toast.error("Please login to checkout");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch("https://midtrans-server-ujicoba-production.up.railway.app/create-transaction", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         total: total,
-  //         email: user.email,
-  //       }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (data?.token) {
-  //       window.snap.pay(data.token, {
-  //         onSuccess: async (result) => {
-  //           console.log("Success:", result);
-  //           await checkout(total);
-  //         },
-  //         onPending: () => toast("Waiting for payment..."),
-  //         onError: () => toast.error("Payment failed"),
-  //         onClose: () => toast("Popup closed"),
-  //       });
-  //     } else {
-  //       toast.error("Failed to get token from server");
-  //     }
-  //   } catch (err) {
-  //     console.error("Checkout error:", err);
-  //     toast.error("Checkout failed");
-  //   }
-  // };
-
   const checkoutWithSnap = async (total) => {
     if (!user) {
       toast.error("Please login to checkout");
@@ -180,49 +141,12 @@ export default function useCart() {
       if (data?.token) {
         window.snap.pay(data.token, {
           onSuccess: async (result) => {
-            console.log("Payment Success:", result);
+            console.log("Success:", result);
             await checkout(total);
           },
-          onPending: async (result) => {
-            toast("Waiting for payment...");
-
-            // Polling untuk cek status transaksi
-            const orderId = result.order_id;
-            let attempts = 0;
-            const maxAttempts = 5;
-            const interval = 3000; // 3 detik
-
-            const checkPaymentStatus = async () => {
-              try {
-                const res = await fetch(`https://midtrans-server-ujicoba-production.up.railway.app/create-transaction/${orderId}`);
-                const statusData = await res.json();
-
-                console.log("Status check:", statusData);
-
-                if (statusData.transaction_status === "settlement" || statusData.transaction_status === "capture") {
-                  toast.success("Payment confirmed!");
-                  await checkout(total);
-                } else if (attempts < maxAttempts) {
-                  attempts++;
-                  setTimeout(checkPaymentStatus, interval);
-                } else {
-                  toast("Payment still pending. Please complete the payment.");
-                }
-              } catch (error) {
-                console.error("Error checking payment status:", error);
-                toast.error("Failed to check payment status");
-              }
-            };
-
-            checkPaymentStatus();
-          },
-          onError: (err) => {
-            toast.error("Payment failed");
-            console.error("Payment Error:", err);
-          },
-          onClose: () => {
-            toast("Payment popup closed");
-          },
+          onPending: () => toast("Waiting for payment..."),
+          onError: () => toast.error("Payment failed"),
+          onClose: () => toast("Popup closed"),
         });
       } else {
         toast.error("Failed to get token from server");
