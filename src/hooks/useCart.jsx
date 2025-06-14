@@ -125,7 +125,7 @@ export default function useCart() {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/create-transaction", {
+      const response = await fetch("https://midtrans-server-ujicoba-production.up.railway.app/create-transaction", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

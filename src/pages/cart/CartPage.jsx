@@ -7,9 +7,9 @@ import useCart from "../../hooks/useCart";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
-const DELIVERY_FEE = 30000;
-const DISCOUNT = 20000;
-const TAX_RATE = 0.11;
+const DELIVERY_FEE = 0;
+const DISCOUNT = 0;
+const TAX_RATE = 0.10;
 
 const CartPage = () => {
   const { cart, addToCart, removeFromCart, deleteItem, checkout, checkoutWithSnap} = useCart();
