@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import SearchBar from "../searchBar/SearchBar";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/Logo.png";
 import { useSelector } from "react-redux";
 import useCart from "../../hooks/useCart";
 import myContext from "../../context/myContext";
