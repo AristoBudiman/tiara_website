@@ -1,28 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import myContext from "../../context/myContext";
+import { useNavigate } from "react-router";
 import { FiSearch } from "react-icons/fi";
-
-const searchData = [
-  {
-    name: 'Bolu',
-    image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_ca3be61a_shjkgm.jpg',
-  },
-  {
-    name: 'Chiffon',
-    image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_f1eac40a_rkp5pu.jpg',
-  },
-  {
-    name: 'Mandarin',
-    image: 'https://res.cloudinary.com/dvu5pzwte/image/upload/v1748345669/WhatsApp_Image_2025-05-27_at_18.32.38_a70c1f09_snkii9.jpg ',
-  },
-];
 
 
 const SearchBar = () => {
+  const context = useContext(myContext);
+  const { getAllProduct } = context
+  // Search State 
   const [search, setSearch] = useState("");
 
-  const filtered = searchData
-    .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
-    .slice(0, 6);
+  // Filter Search Data
+  const filtered = getAllProduct.filter((obj) => obj.title.toLowerCase().includes(search)).slice(0, 8)
+
+  const navigate = useNavigate();
 
   return (
     <div className="relative w-full max-w-md mx-auto">
@@ -42,13 +33,14 @@ const SearchBar = () => {
       {search && (
         <div className="absolute z-50 mt-2 w-full bg-[#FFFFFF] border border-[#8E8E93] rounded-md shadow-md max-h-60 overflow-y-auto">
           {filtered.length > 0 ? (
-            filtered.map((item, index) => (
+            filtered.filter(item => !item.status).map((item, index) => (
               <div
                 key={index}
                 className="flex items-center px-4 py-2 hover:bg-[#8E8E93] cursor-pointer transition"
+                onClick={() => navigate(`/productinfo/${item.id}`)}
               >
-                <img src={item.image} alt={item.name} className="w-8 h-8 rounded mr-3 object-cover" />
-                <span className="text-sm text-[#8E8E93">{item.name}</span>
+                <img src={item.images[0]} alt={item.title} className="w-8 h-8 rounded mr-3 object-cover" />
+                <span className="text-sm text-[#8E8E93">{item.title}</span>
               </div>
             ))
           ) : (
