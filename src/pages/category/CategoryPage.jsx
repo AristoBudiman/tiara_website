@@ -18,7 +18,8 @@ const CategoryPage = () => {
     const { cart, addToCart, deleteItem } = useCart(user);
 
     const filterProduct = getAllProduct.filter((obj) => 
-        obj.category.toLowerCase().includes(lowerCategoryName)
+        obj.category.toLowerCase().includes(lowerCategoryName) &&
+        obj.status === undefined
     );
 
     return (

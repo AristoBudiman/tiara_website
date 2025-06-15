@@ -21,7 +21,7 @@ const HomePageProductCard = () => {
         <div className="container pb-5 mx-auto">
           <div>{loading && <Loader/>}</div>
           <div className="grid gap-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center">
-            {getAllProduct.map((item, index) => {
+            {getAllProduct.filter(item => !item.status).map((item, index) => {
               const { id, images, title, price, actualPrice, quantity, description } = item;
 
               return (
