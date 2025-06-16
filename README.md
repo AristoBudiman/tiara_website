@@ -1,12 +1,64 @@
-# React + Vite
+# Tiara Bakery – Website Toko Roti Online
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Selamat datang di repository **tiara_website**!  
+Website ini memungkinkan pengguna untuk memesan roti dan kue secara online, melakukan pembayaran digital, serta melacak status pesanan dengan mudah.
+Website ini juga memungkinkan admin untuk mengelola produk, memantau daftar pesanan secara real-time, dan melihat laporan penjualan pada hari atau bulan tertentu.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Link Deploy
 
-## Expanding the ESLint configuration
+[Kunjungi Website dari sini](https://tiara-website.vercel.app/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Laporan Proyek
+
+- **Laporan PDF**: [Download PDF](https://drive.google.com/file/d/1bLPl4C-9nJvMIXvtEse39sN34ufmVtRw/view?usp=sharing)  
+- **Google Docs**: [Buka di Google Docs](https://docs.google.com/document/d/1_MqIcx3F8VohYKTBT3bO1eSkzRsQ52neVYmNAzHof0M/edit?tab=t.0)
+
+---
+
+## Video Presentasi
+
+[Tonton di YouTube](<link>)  
+
+---
+
+## Demo Pembayaran
+
+Untuk mencoba fitur pembayaran, gunakan metode berikut:
+
+### 🔹 QRIS  
+Copy image address QR ke [link berikut!](https://simulator.sandbox.midtrans.com/v2/qris/index)
+
+### 🔹 Kartu Kredit (Visa - Dummy)
+
+| Informasi     | Nilai                  |
+|---------------|------------------------|
+| **Card Number** | `4411 1111 1111 1118` |
+| **Expiry Date** | `10/25`               |
+| **CVV**         | `123`                 |
+
+---
+
+## Fitur Utama
+
+- Registrasi customer
+- Login customer dan admin
+- (Customer) Pemesanan produk secara real-time
+- (Customer) Pembayaran digital via Midtrans
+- (Customer) Pelacakan status pesanan
+- (Admin) Mengelola produk
+- (Admin) Mengelola pesanan
+- (Admin) Melihat laporan toko
+
+---
+
+## Link GitHub server back-end Midtrans
+
+https://github.com/AristoBudiman/midtrans-server-ujicoba
+
+---
+
+Terima kasih telah mengunjungi!
