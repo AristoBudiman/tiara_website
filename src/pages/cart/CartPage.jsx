@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, onSnapshot } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import Layout from "../../components/layout/Layout";
 import { FiTrash2 } from "react-icons/fi";
@@ -21,19 +21,15 @@ const CartPage = () => {
   const auth = getAuth(); 
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const docRef = doc(fireDB, "users", auth.currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserData(docSnap.data());
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data", error);
+  const unsub = onSnapshot(doc(fireDB, "users", auth.currentUser.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
       }
-    };
+    }, (error) => {
+      console.error("Failed to fetch user data", error);
+    });
 
-    fetchUserData();
+    return () => unsub();
   }, []);
 
   const isUserInfoComplete = userData?.address && userData?.phone;
