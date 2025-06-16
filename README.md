@@ -8,7 +8,7 @@ Website ini juga memungkinkan admin untuk mengelola produk, memantau daftar pesa
 
 ## Link Deploy
 
-[Kunjungi Website dari sini](https://tiara-website.vercel.app/)
+[Tiara Bakery](https://tiara-website.vercel.app/)
 
 ---
 
