@@ -21,7 +21,7 @@ Website ini juga memungkinkan admin untuk mengelola produk, memantau daftar pesa
 
 ## Video Presentasi
 
-[Tonton di YouTube](<link>)  
+[Tonton di YouTube](https://www.youtube.com/watch?v=X0oXV2mIa68) 
 
 ---
 
