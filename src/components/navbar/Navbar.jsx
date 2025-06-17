@@ -37,9 +37,15 @@ const Navbar = () => {
             </li>
             {/* Cart */}
             <li>
-                <Link to="/cart" className="flex items-center space-x-1">
-                    <FaShoppingCart /> ({cartCount})
-                </Link>
+                {user ? (
+                    <Link to="/cart" className="flex items-center space-x-1">
+                        <FaShoppingCart /> ({cartCount})
+                    </Link>
+                ) : (
+                    <div className="flex items-center space-x-1 text-gray-400 cursor-not-allowed">
+                        <FaShoppingCart /> ({cartCount})
+                    </div>
+                )}
             </li>
             {/* Orders */}
             <li>
