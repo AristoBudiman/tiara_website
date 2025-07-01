@@ -49,6 +49,7 @@ const UpdateProductPage = () => {
                 images: product?.images,
                 category: product?.category,
                 description: product?.description,
+                id: product?.id
             })
             setLoading(false);
 
