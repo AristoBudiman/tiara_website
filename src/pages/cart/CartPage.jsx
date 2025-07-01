@@ -21,16 +21,24 @@ const CartPage = () => {
   const auth = getAuth(); 
 
   useEffect(() => {
-  const unsub = onSnapshot(doc(fireDB, "users", auth.currentUser.uid), (docSnap) => {
-      if (docSnap.exists()) {
-        setUserData(docSnap.data());
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const userDocRef = doc(fireDB, "users", user.uid);
+        const unsub = onSnapshot(userDocRef, (docSnap) => {
+          if (docSnap.exists()) {
+            setUserData(docSnap.data());
+          }
+        }, (error) => {
+          console.error("Failed to fetch user data", error);
+        });
+
+        return () => unsub();
       }
-    }, (error) => {
-      console.error("Failed to fetch user data", error);
     });
 
-    return () => unsub();
+    return () => unsubscribe();
   }, []);
+
 
   const isUserInfoComplete = userData?.address && userData?.phone;
 
